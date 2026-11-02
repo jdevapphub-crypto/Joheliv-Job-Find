@@ -338,11 +338,12 @@ textarea.form-control{resize:vertical;min-height:70px}
         localStorage.setItem('cf_payment_ref', data.reference);
         // Redirect to Paystack
         window.location.href = data.authorization_url;
-      } else {
-        alert("Payment initialization failed. Please try again.");
+            } else {
+        alert("Error: " + (data.error || "Payment initialization failed. Please try again."));
         btn.disabled = false;
         btn.innerHTML = label;
       }
+
     } catch (e) {
       console.error(e);
       alert("Could not connect to payment server.");
