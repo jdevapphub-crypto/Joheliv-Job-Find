@@ -1,0 +1,163 @@
+/**
+ * CareerForge Jobs API — Cloudflare Worker
+ *
+ * Endpoint:  GET /?qualification=grade12&interest=hospitality
+ * Returns:   { jobs: [ "…", "…" ], qualification, interest, source }
+ *
+ * CORS enabled so the CareerForge HTML page can call it from any origin.
+ */
+
+const JOBS = [
+  // ---------- Grade 12 / Matric ----------
+  { q: ["grade12"], t: ["hospitality", "kitchen", "food"], x: "Chef Assistant / Commis Chef – entry level" },
+  { q: ["grade12"], t: ["hospitality", "food"], x: "Food Service Worker" },
+  { q: ["grade12"], t: ["hospitality", "kitchen"], x: "Kitchen Porter / Scullery Assistant" },
+  { q: ["grade12"], t: ["hospitality", "food"], x: "Short course: Food Safety & Hygiene (accredited)" },
+  { q: ["grade12"], t: ["hospitality", "kitchen", "food"], x: "Short course: Professional Cookery (NQF level 4)" },
+  { q: ["grade12"], t: ["hospitality", "coffee"], x: "Short course: Barista Skills" },
+  { q: ["grade12"], t: ["hospitality", "admin"], x: "Learnership: Hospitality Receptionist" },
+  { q: ["grade12"], t: ["hospitality", "food"], x: "Waiter / Front of House Assistant" },
+  { q: ["grade12"], t: ["retail", "sales"], x: "Retail Assistant / Cashier" },
+  { q: ["grade12"], t: ["retail", "sales"], x: "Sales Assistant – entry level" },
+  { q: ["grade12"], t: ["admin", "office"], x: "Short course: Computer Literacy (MS Office)" },
+  { q: ["grade12"], t: ["admin", "office"], x: "Learnership: Business Administration NQF 3" },
+  { q: ["grade12"], t: ["admin", "office"], x: "Receptionist / General Office Assistant" },
+  { q: ["grade12"], t: ["security"], x: "Security Officer (PSIRA Grade E–C training)" },
+  { q: ["grade12"], t: ["cleaning", "general"], x: "General Worker / Cleaner" },
+  { q: ["grade12"], t: ["driving", "logistics"], x: "Short course: Code 10 Driver’s Licence + PDP" },
+  { q: ["grade12"], t: ["logistics", "warehouse"], x: "Warehouse Picker / Packer" },
+  { q: ["grade12"], t: ["beauty"], x: "Short course: Nail Technician / Beauty Basics" },
+  { q: ["grade12"], t: ["care"], x: "Short course: Caregiving / Home-Based Care" },
+
+  // ---------- Diploma / Certificate ----------
+  { q: ["diploma"], t: ["hospitality", "kitchen", "food"], x: "Junior Sous Chef" },
+  { q: ["diploma"], t: ["hospitality", "food"], x: "Catering Supervisor" },
+  { q: ["diploma"], t: ["hospitality", "food"], x: "Food & Beverage Controller" },
+  { q: ["diploma"], t: ["hospitality", "kitchen"], x: "Certificate: Kitchen Management" },
+  { q: ["diploma"], t: ["hospitality"], x: "Restaurant Supervisor" },
+  { q: ["diploma"], t: ["admin", "office"], x: "Office Administrator / Personal Assistant" },
+  { q: ["diploma"], t: ["admin", "finance"], x: "Bookkeeper / Accounts Clerk" },
+  { q: ["diploma"], t: ["retail", "sales"], x: "Store Supervisor" },
+  { q: ["diploma"], t: ["retail", "sales"], x: "Retail Branch Assistant Manager" },
+  { q: ["diploma"], t: ["it", "office"], x: "IT Support Technician – entry level" },
+  { q: ["diploma"], t: ["care"], x: "Enrolled Nursing Auxiliary / Care Worker" },
+  { q: ["diploma"], t: ["hospitality", "admin", "retail"], x: "Supervisory roles in your field" },
+
+  // ---------- Degree ----------
+  { q: ["degree"], t: ["hospitality", "kitchen", "food"], x: "Head Chef / Kitchen Manager" },
+  { q: ["degree"], t: ["hospitality", "food"], x: "Food Production Manager" },
+  { q: ["degree"], t: ["hospitality"], x: "Hospitality Consultant" },
+  { q: ["degree"], t: ["hospitality", "food"], x: "Business owner – catering company" },
+  { q: ["degree"], t: ["admin", "office"], x: "Operations / Admin Manager" },
+  { q: ["degree"], t: ["retail", "sales"], x: "Retail / Branch Manager" },
+  { q: ["degree"], t: ["finance"], x: "Accountant / Financial Analyst" },
+  { q: ["degree"], t: ["it", "office"], x: "Software Developer / IT Specialist" },
+  { q: ["degree"], t: ["education"], x: "Teacher / Lecturer (with teaching qualification)" }
+];
+
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Max-Age": "86400"
+};
+
+function jsonResponse(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "no-store",
+      ...CORS_HEADERS
+    }
+  });
+}
+
+function matchJobs(qualification, interest) {
+  const qual = (qualification || "").toLowerCase().trim();
+  const words = (interest || "")
+    .toLowerCase()
+    .split(/[\s,;/]+/)
+    .map(w => w.trim())
+    .filter(Boolean);
+
+  // Filter by qualification first
+  const pool = JOBS.filter(j => j.q.includes(qual));
+
+  // If no interest given, return the full pool for that qualification
+  if (words.length === 0) {
+    return pool.map(j => j.x);
+  }
+
+  // Score each job by how many interest words it matches
+  const scored = pool.map(job => {
+    let score = 0;
+    const haystack = (job.t.join(" ") + " " + job.x).toLowerCase();
+    for (const w of words) {
+      if (job.t.some(t => t.includes(w) || w.includes(t))) score += 2;
+      if (job.x.toLowerCase().includes(w)) score += 1;
+      if (haystack.includes(w)) score += 0.5;
+    }
+    return { job, score };
+  });
+
+  const hits = scored.filter(s => s.score > 0).sort((a, b) => b.score - a.score);
+
+  // If nothing matches the interest, fall back to the full qualification pool
+  const result = hits.length > 0 ? hits : scored.map(s => ({ job: s.job, score: 0 }));
+
+  // Remove duplicates and return the job strings
+  const seen = new Set();
+  return result
+    .map(r => r.job.x)
+    .filter(x => {
+      if (seen.has(x)) return false;
+      seen.add(x);
+      return true;
+    });
+}
+
+export default {
+  async fetch(request, env, ctx) {
+    // Handle CORS preflight
+    if (request.method === "OPTIONS") {
+      return new Response(null, { status: 204, headers: CORS_HEADERS });
+    }
+
+    if (request.method !== "GET") {
+      return jsonResponse({ error: "Method not allowed. Use GET." }, 405);
+    }
+
+    const url = new URL(request.url);
+    const qualification = url.searchParams.get("qualification") || "";
+    const interest = url.searchParams.get("interest") || "";
+
+    // Simple health / welcome route when no query params are passed
+    if (!qualification && !interest && url.pathname === "/") {
+      return jsonResponse({
+        name: "CareerForge Jobs API",
+        status: "ok",
+        usage: "GET /?qualification=grade12&interest=hospitality",
+        qualificationOptions: ["grade12", "diploma", "degree"],
+        example: "/?qualification=grade12&interest=kitchen"
+      });
+    }
+
+    const validQuals = ["grade12", "diploma", "degree"];
+    if (qualification && !validQuals.includes(qualification.toLowerCase())) {
+      return jsonResponse({
+        error: "Invalid qualification. Use one of: " + validQuals.join(", ")
+      }, 400);
+    }
+
+    const jobs = matchJobs(qualification, interest);
+
+    return jsonResponse({
+      qualification: qualification || "any",
+      interest: interest || "any",
+      count: jobs.length,
+      jobs,
+      source: "jobs.jdevapphub.workers.dev"
+    });
+  }
+};
