@@ -189,7 +189,8 @@ textarea.form-control{resize:vertical;min-height:70px}
   const ul = arr => arr.length ? `<ul>${arr.map(i => `<li>${esc(i)}</li>`).join('')}</ul>` : '';
 
   // Set this to your deployed worker URL!
-  const WORKER_URL = "https://jobs.jdevapphub.workers.dev"; 
+  // Notice we add /create-checkout directly to the URL here
+  const WORKER_URL = "https://jobs.jdevapphub.workers.dev/create-checkout"; 
 
   const sheet = $('documentSheet');
   const pdfSurface = $('pdfSurface');
@@ -325,7 +326,7 @@ textarea.form-control{resize:vertical;min-height:70px}
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting to Paystack...';
 
     try {
-      const res = await fetch(`${WORKER_URL}/create-checkout`, {
+      const res = await fetch(WORKER_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email })
@@ -358,7 +359,7 @@ textarea.form-control{resize:vertical;min-height:70px}
     if (!ref) return;
 
     try {
-      const res = await fetch(`${WORKER_URL}/check-payment?ref=${ref}`);
+      const res = await fetch(`https://jobs.jdevapphub.workers.dev/check-payment?ref=${ref}`);
       const data = await res.json();
       
       if (data.paid) {
