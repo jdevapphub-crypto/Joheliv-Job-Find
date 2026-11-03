@@ -127,8 +127,6 @@ textarea.form-control{resize:vertical;min-height:70px}
     <div class="form-group"><label>Position</label><input id="coverPosition" class="form-control" placeholder="Position applied for"></div>
     <div class="form-group"><label>Letter body</label><textarea id="coverBody" class="form-control" rows="4" placeholder="Write the body of your letter"></textarea></div>
 
-    <button class="btn btn-primary btn-full" id="generateCvBtn" style="margin-top:1rem;"><i class="fas fa-magic"></i> Generate Preview</button>
-
         <!-- ADD THIS FOR CV AI -->
     <div class="form-group" style="background:#eff6ff; padding:1rem; border-radius:12px; border:1px solid #bfdbfe;">
       <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer; color:#1e3a8a;">
@@ -137,7 +135,8 @@ textarea.form-control{resize:vertical;min-height:70px}
       </label>
       <p class="hint" style="color:#3b82f6; margin-top:0.5rem;">Type a few keywords below and let AI write it for you.</p>
     </div>
-    
+
+    <button class="btn btn-primary btn-full" id="generateCvBtn" style="margin-top:1rem;"><i class="fas fa-magic"></i> Generate Preview</button>
     <p class="hint">A3 size, white background, professional layout.</p>
   </div>
 
@@ -207,7 +206,7 @@ textarea.form-control{resize:vertical;min-height:70px}
   const today = () => new Date().toLocaleDateString('en-ZA', { year: 'numeric', month: 'long', day: 'numeric' });
   const ul = arr => arr.length ? `<ul>${arr.map(i => `<li>${esc(i)}</li>`).join('')}</ul>` : '';
 
-  // Base Worker URL (No /create-checkout appended here)
+  // Base Worker URL
   const WORKER_URL = "https://jobscvdocumentpdf.jdevapphub.workers.dev"; 
 
   const sheet = $('documentSheet');
@@ -216,7 +215,6 @@ textarea.form-control{resize:vertical;min-height:70px}
   const navBtns = document.querySelectorAll('.nav-btn');
   let activeView = 'cv';
   
-  // Track payment securely inside this closure
   let isPaid = false;
 
   /* ---------- Generators ---------- */
@@ -297,7 +295,6 @@ textarea.form-control{resize:vertical;min-height:70px}
     if (view === 'cv') sheet.innerHTML = getCvHtml() + '<div style="page-break-before:always; margin-top:3rem;"></div>' + getCoverHtml();
     if (view === 'business') sheet.innerHTML = getBizHtml() + '<div style="page-break-before:always; margin-top:3rem;"></div>' + getMotHtml();
     
-    // Reset payment status when generating a new preview
     lockDownloads();
   }
 
@@ -339,7 +336,7 @@ textarea.form-control{resize:vertical;min-height:70px}
         const aiText = await fetchAiText("cover", keywords, name);
         
         if (aiText) {
-          $('coverBody').value = aiText; // Auto-fill the text area
+          $('coverBody').value = aiText; 
         } else {
           alert("AI generation failed. Please write it manually.");
         }
@@ -384,11 +381,27 @@ textarea.form-control{resize:vertical;min-height:70px}
     $('payBtn').classList.remove('hidden');
     $('downloadPdfBtn').classList.add('hidden');
     $('printBtn').disabled = true;
+    
+    // Reset the banner text just in case
+    const msg = $('paymentBanner').querySelector('p');
+    if(msg) {
+        msg.innerHTML = 'Unlock your professional A3 PDF document(s)';
+        msg.style.color = '#92400e';
+    }
   }
 
   function unlockDownloads() {
     isPaid = true;
-    $('paymentBanner').innerHTML = '<p style="color:#059669;"><i class="fas fa-check-circle"></i> Payment Successful! Your documents are unlocked.</p>';
+    
+    // Update text without destroying the buttons
+    const msg = $('paymentBanner').querySelector('p');
+    if(msg) {
+        msg.innerHTML = '<i class="fas fa-check-circle"></i> Payment Successful! Your documents are unlocked.';
+        msg.style.color = '#059669';
+    }
+    
+    // Show download, hide pay
+    $('payBtn').classList.add('hidden');
     $('downloadPdfBtn').classList.remove('hidden');
     $('printBtn').disabled = false;
   }
@@ -432,7 +445,15 @@ textarea.form-control{resize:vertical;min-height:70px}
 
   // Check payment status securely from the Worker
   async function checkPaymentStatus() {
-    const ref = localStorage.getItem('cf_payment_ref');
+    // 1. Get the reference from the URL if Paystack redirected us
+    const urlParams = new URLSearchParams(window.location.search);
+    let ref = urlParams.get('reference') || urlParams.get('trxref');
+    
+    // 2. If it's not in the URL, check localStorage
+    if (!ref) {
+      ref = localStorage.getItem('cf_payment_ref');
+    }
+
     if (!ref) return;
 
     try {
@@ -442,7 +463,10 @@ textarea.form-control{resize:vertical;min-height:70px}
       if (data.paid) {
         unlockDownloads();
         localStorage.removeItem('cf_payment_ref'); 
+        // Clean the URL
+        window.history.replaceState({}, document.title, window.location.pathname);
       } else {
+        // Payment not confirmed yet
         const btn = $('payBtn');
         if (btn) {
             btn.innerHTML = '<i class="fas fa-credit-card"></i> Pay R30 with Paystack';
