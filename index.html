@@ -188,9 +188,8 @@ textarea.form-control{resize:vertical;min-height:70px}
   const today = () => new Date().toLocaleDateString('en-ZA', { year: 'numeric', month: 'long', day: 'numeric' });
   const ul = arr => arr.length ? `<ul>${arr.map(i => `<li>${esc(i)}</li>`).join('')}</ul>` : '';
 
-  // Set this to your deployed worker URL!
-  // Notice we add /create-checkout directly to the URL here
-  const WORKER_URL = "https://jobs.jdevapphub.workers.dev/create-checkout"; 
+  // Base Worker URL (No /create-checkout appended here)
+  const WORKER_URL = "https://jobs.jdevapphub.workers.dev"; 
 
   const sheet = $('documentSheet');
   const pdfSurface = $('pdfSurface');
@@ -198,9 +197,8 @@ textarea.form-control{resize:vertical;min-height:70px}
   const navBtns = document.querySelectorAll('.nav-btn');
   let activeView = 'cv';
   
-  // Track payment
+  // Track payment securely inside this closure
   let isPaid = false;
-  let currentPaymentRef = null;
 
   /* ---------- Generators ---------- */
   function getCvHtml() {
@@ -299,7 +297,6 @@ textarea.form-control{resize:vertical;min-height:70px}
   
   function lockDownloads() {
     isPaid = false;
-    currentPaymentRef = null;
     $('paymentBanner').classList.remove('hidden');
     $('payBtn').classList.remove('hidden');
     $('downloadPdfBtn').classList.add('hidden');
@@ -323,10 +320,10 @@ textarea.form-control{resize:vertical;min-height:70px}
 
     const btn = this, label = btn.innerHTML;
     btn.disabled = true; 
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting to Paystack...';
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting...';
 
     try {
-      const res = await fetch(WORKER_URL, {
+      const res = await fetch(`${WORKER_URL}/create-checkout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email })
@@ -335,16 +332,13 @@ textarea.form-control{resize:vertical;min-height:70px}
       const data = await res.json();
       
       if (data.authorization_url) {
-        // Save reference to localStorage so we can verify when they return
         localStorage.setItem('cf_payment_ref', data.reference);
-        // Redirect to Paystack
         window.location.href = data.authorization_url;
-            } else {
-        alert("Error: " + (data.error || "Payment initialization failed. Please try again."));
+      } else {
+        alert("Error: " + (data.error || "Payment initialization failed."));
         btn.disabled = false;
         btn.innerHTML = label;
       }
-
     } catch (e) {
       console.error(e);
       alert("Could not connect to payment server.");
@@ -353,21 +347,19 @@ textarea.form-control{resize:vertical;min-height:70px}
     }
   });
 
-  // Check payment status on load (in case returning from Paystack)
+  // Check payment status securely from the Worker
   async function checkPaymentStatus() {
     const ref = localStorage.getItem('cf_payment_ref');
     if (!ref) return;
 
     try {
-      const res = await fetch(`https://jobs.jdevapphub.workers.dev/check-payment?ref=${ref}`);
+      const res = await fetch(`${WORKER_URL}/check-payment?ref=${ref}`);
       const data = await res.json();
       
       if (data.paid) {
         unlockDownloads();
-        // Clear the ref so they don't get unlocked forever on this browser
         localStorage.removeItem('cf_payment_ref'); 
       } else {
-        // Still not paid (maybe they cancelled, or webhook is slow)
         const btn = $('payBtn');
         if (btn) {
             btn.innerHTML = '<i class="fas fa-credit-card"></i> Pay R30 with Paystack';
@@ -379,7 +371,6 @@ textarea.form-control{resize:vertical;min-height:70px}
     }
   }
 
-  // Run check on load
   window.addEventListener('load', () => {
     render('cv');
     checkPaymentStatus();
@@ -393,7 +384,7 @@ textarea.form-control{resize:vertical;min-height:70px}
     }
 
     if (typeof html2pdf === 'undefined') { 
-      alert('PDF library failed to load. Check internet connection or use Print.'); 
+      alert('PDF library failed to load.'); 
       return; 
     }
 
@@ -430,7 +421,7 @@ textarea.form-control{resize:vertical;min-height:70px}
       setTimeout(() => { if (url) URL.revokeObjectURL(url); }, 120000);
     } catch (e) {
       console.error(e);
-      alert('Could not create the PDF. Use the Print button and choose "Save as PDF".');
+      alert('Could not create the PDF.');
     } finally {
       pdfSurface.innerHTML = '';
       btn.disabled = false;
