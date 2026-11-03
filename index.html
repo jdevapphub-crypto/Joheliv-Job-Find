@@ -217,6 +217,37 @@ textarea.form-control{resize:vertical;min-height:70px}
   
   let isPaid = false;
 
+  // ALL FORM IDS to save/restore
+  const formIds = [
+    'cvFirst', 'cvSurname', 'cvPhone', 'cvEmail', 'cvLocation', 'cvDob', 'cvId', 
+    'cvNationality', 'cvHomeLang', 'cvOtherLang', 'cvObjective', 'cvEducation', 
+    'cvJobTitle', 'cvJobDates', 'cvCompany', 'cvDuties', 'cvKnowledge', 'cvSkills', 
+    'cvReferences', 'coverCompany', 'coverPosition', 'coverBody', 
+    'bizName', 'bizOwner', 'bizDesc', 'bizMarket', 'bizFinance', 'motProgram', 'motText'
+  ];
+
+  // Save form data before redirecting to Paystack
+  function saveFormData() {
+    const data = {};
+    formIds.forEach(id => { if($(id)) data[id] = $(id).value; });
+    localStorage.setItem('careerforge_form_data', JSON.stringify(data));
+  }
+
+  // Restore form data when returning from Paystack
+  function restoreFormData() {
+    const saved = localStorage.getItem('careerforge_form_data');
+    if (saved) {
+      try {
+        const data = JSON.parse(saved);
+        formIds.forEach(id => {
+          if ($(id) && data[id] !== undefined) {
+            $(id).value = data[id];
+          }
+        });
+      } catch (e) { console.error("Error restoring form data", e); }
+    }
+  }
+
   /* ---------- Generators ---------- */
   function getCvHtml() {
     const first = val('cvFirst'), sur = val('cvSurname');
@@ -382,7 +413,6 @@ textarea.form-control{resize:vertical;min-height:70px}
     $('downloadPdfBtn').classList.add('hidden');
     $('printBtn').disabled = true;
     
-    // Reset the banner text just in case
     const msg = $('paymentBanner').querySelector('p');
     if(msg) {
         msg.innerHTML = 'Unlock your professional A3 PDF document(s)';
@@ -393,14 +423,12 @@ textarea.form-control{resize:vertical;min-height:70px}
   function unlockDownloads() {
     isPaid = true;
     
-    // Update text without destroying the buttons
     const msg = $('paymentBanner').querySelector('p');
     if(msg) {
         msg.innerHTML = '<i class="fas fa-check-circle"></i> Payment Successful! Your documents are unlocked.';
         msg.style.color = '#059669';
     }
     
-    // Show download, hide pay
     $('payBtn').classList.add('hidden');
     $('downloadPdfBtn').classList.remove('hidden');
     $('printBtn').disabled = false;
@@ -413,6 +441,9 @@ textarea.form-control{resize:vertical;min-height:70px}
       alert("Please enter an email address in the CV form (it's required for payment).");
       return;
     }
+
+    // SAVE DATA BEFORE LEAVING THE PAGE
+    saveFormData();
 
     const btn = this, label = btn.innerHTML;
     btn.disabled = true; 
@@ -445,11 +476,9 @@ textarea.form-control{resize:vertical;min-height:70px}
 
   // Check payment status securely from the Worker
   async function checkPaymentStatus() {
-    // 1. Get the reference from the URL if Paystack redirected us
     const urlParams = new URLSearchParams(window.location.search);
     let ref = urlParams.get('reference') || urlParams.get('trxref');
     
-    // 2. If it's not in the URL, check localStorage
     if (!ref) {
       ref = localStorage.getItem('cf_payment_ref');
     }
@@ -465,8 +494,12 @@ textarea.form-control{resize:vertical;min-height:70px}
         localStorage.removeItem('cf_payment_ref'); 
         // Clean the URL
         window.history.replaceState({}, document.title, window.location.pathname);
+        
+        // Re-render the document with the restored data
+        render(activeView);
+        // Force unlock again because render() calls lockDownloads()
+        unlockDownloads(); 
       } else {
-        // Payment not confirmed yet
         const btn = $('payBtn');
         if (btn) {
             btn.innerHTML = '<i class="fas fa-credit-card"></i> Pay R30 with Paystack';
@@ -479,7 +512,11 @@ textarea.form-control{resize:vertical;min-height:70px}
   }
 
   window.addEventListener('load', () => {
+    // 1. Restore data first
+    restoreFormData();
+    // 2. Render the preview with restored data
     render('cv');
+    // 3. Check payment status
     checkPaymentStatus();
   });
 
