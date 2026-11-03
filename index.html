@@ -180,14 +180,14 @@ textarea.form-control{resize:vertical;min-height:70px}
   </div>
   
   <!-- Payment Banner (Hidden until they try to download) -->
-    <div id="paymentBanner" class="payment-banner hidden">
-    <p id="bannerTitle">Unlock your professional A3 PDF document(s)</p>
-    <span class="price-tag" id="priceTag">R30.00</span>
+  <div id="paymentBanner" class="payment-banner hidden">
+    <p>Unlock your professional A3 PDF document(s)</p>
+    <span class="price-tag">R30.00</span>
     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;">
       <button class="btn btn-pay" id="payBtn"><i class="fas fa-credit-card"></i> Pay R30 with Paystack</button>
       <button class="btn btn-download hidden" id="downloadPdfBtn"><i class="fas fa-download"></i> Download PDF</button>
     </div>
-    <p id="payNote" style="font-size:0.75rem; font-weight:normal; color:#92400e; margin-top:0.2rem;">Secure payment via Paystack. You will be redirected.</p>
+    <p style="font-size:0.75rem; font-weight:normal; color:#92400e; margin-top:0.2rem;">Secure payment via Paystack. You will be redirected.</p>
   </div>
 
   <div class="preview-scroll"><div class="doc document-sheet" id="documentSheet"></div></div>
@@ -209,7 +209,6 @@ textarea.form-control{resize:vertical;min-height:70px}
 
   // Base Worker URL (No /create-checkout appended here)
   const WORKER_URL = "https://jobscvdocumentpdf.jdevapphub.workers.dev"; 
-  const AI_URL = "https://jobs.jdevapphub.workers.dev";
 
   const sheet = $('documentSheet');
   const pdfSurface = $('pdfSurface');
@@ -298,9 +297,8 @@ textarea.form-control{resize:vertical;min-height:70px}
     if (view === 'cv') sheet.innerHTML = getCvHtml() + '<div style="page-break-before:always; margin-top:3rem;"></div>' + getCoverHtml();
     if (view === 'business') sheet.innerHTML = getBizHtml() + '<div style="page-break-before:always; margin-top:3rem;"></div>' + getMotHtml();
     
-        // Keep paid users unlocked when the preview regenerates
-    if (isPaid || sessionStorage.getItem('cf_paid') === '1') unlockDownloads();
-    else lockDownloads();
+    // Reset payment status when generating a new preview
+    lockDownloads();
   }
 
   /* ---------- Navigation & Form Submission ---------- */
@@ -312,40 +310,41 @@ textarea.form-control{resize:vertical;min-height:70px}
   }));
   
   // Helper to call AI
-    async function fetchAiText(type, keywords, name) {
+  async function fetchAiText(type, keywords, name) {
     try {
-      const res = await fetch(`${AI_URL}/generate-ai`, {
+      const res = await fetch(`${WORKER_URL}/generate-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type, keywords, name })
       });
       const data = await res.json();
-      if (!res.ok) { console.error('AI error', data); return null; }
       return data.text || null;
     } catch (e) {
-      console.error('AI Fetch Error', e);
+      console.error("AI Fetch Error", e);
       return null;
     }
   }
 
   // Generate CV & Cover Letter
-    $('generateCvBtn').addEventListener('click', async function () {
+  $('generateCvBtn').addEventListener('click', async function () {
     const useAi = $('useAiCover').checked;
     if (useAi) {
       const keywords = prompt("Enter a few keywords for your cover letter (e.g., Chef, hardworking, eager to learn):");
       if (keywords) {
-        const btn = this, label = btn.innerHTML;
+        const btn = this;
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> AI is writing...';
         btn.disabled = true;
-
+        
         const name = (val('cvFirst') + ' ' + val('cvSurname')).trim() || 'the applicant';
-        const position = val('coverPosition');
-        const aiText = await fetchAiText('cover', position ? `${keywords}. Applying for: ${position}` : keywords, name);
-
-        if (aiText) $('coverBody').value = aiText;
-        else alert('AI generation failed. Please write it manually.');
-
-        btn.innerHTML = label;
+        const aiText = await fetchAiText("cover", keywords, name);
+        
+        if (aiText) {
+          $('coverBody').value = aiText; // Auto-fill the text area
+        } else {
+          alert("AI generation failed. Please write it manually.");
+        }
+        
+        btn.innerHTML = '<i class="fas fa-magic"></i> Generate Preview';
         btn.disabled = false;
       }
     }
@@ -353,33 +352,24 @@ textarea.form-control{resize:vertical;min-height:70px}
   });
 
   // Generate Business & Motivation
-    $('generateBizBtn').addEventListener('click', async function () {
+  $('generateBizBtn').addEventListener('click', async function () {
     const useAi = $('useAiBusiness').checked;
     if (useAi) {
       const keywords = prompt("Describe your business in a few words (e.g., Catering, local food, events):");
       if (keywords) {
-        const btn = this, label = btn.innerHTML;
+        const btn = this;
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> AI is writing...';
         btn.disabled = true;
 
         const name = val('bizOwner') || 'the owner';
-        const [bizText, marketText, financeText, motText] = await Promise.all([
-          fetchAiText('business', keywords, name),
-          fetchAiText('market', keywords, name),
-          fetchAiText('finance', keywords, name),
-          fetchAiText('motivation', keywords, name)
-        ]);
+        
+        const bizText = await fetchAiText("business", keywords, name);
+        if (bizText) $('bizDesc').value = bizText;
 
-        if (bizText && !val('bizDesc')) $('bizDesc').value = bizText;
-        if (marketText && !val('bizMarket')) $('bizMarket').value = marketText;
-        if (financeText && !val('bizFinance')) $('bizFinance').value = financeText;
-        if (motText && !val('motText')) $('motText').value = motText;
-
-        if (!bizText && !marketText && !financeText && !motText) {
-          alert('AI generation failed. Please write it manually.');
-        }
-
-        btn.innerHTML = label;
+        const motText = await fetchAiText("motivation", keywords, name);
+        if (motText) $('motText').value = motText;
+        
+        btn.innerHTML = '<i class="fas fa-magic"></i> Generate Preview';
         btn.disabled = false;
       }
     }
@@ -388,12 +378,9 @@ textarea.form-control{resize:vertical;min-height:70px}
 
   /* ---------- Payment & Download Logic ---------- */
   
-    function lockDownloads() {
+  function lockDownloads() {
     isPaid = false;
     $('paymentBanner').classList.remove('hidden');
-    $('bannerTitle').textContent = 'Unlock your professional A3 PDF document(s)';
-    $('priceTag').classList.remove('hidden');
-    $('payNote').classList.remove('hidden');
     $('payBtn').classList.remove('hidden');
     $('downloadPdfBtn').classList.add('hidden');
     $('printBtn').disabled = true;
@@ -401,12 +388,7 @@ textarea.form-control{resize:vertical;min-height:70px}
 
   function unlockDownloads() {
     isPaid = true;
-    sessionStorage.setItem('cf_paid', '1');
-    $('paymentBanner').classList.remove('hidden');
-    $('bannerTitle').innerHTML = '<i class="fas fa-check-circle"></i> Payment successful! Your documents are unlocked.';
-    $('priceTag').classList.add('hidden');
-    $('payNote').classList.add('hidden');
-    $('payBtn').classList.add('hidden');
+    $('paymentBanner').innerHTML = '<p style="color:#059669;"><i class="fas fa-check-circle"></i> Payment Successful! Your documents are unlocked.</p>';
     $('downloadPdfBtn').classList.remove('hidden');
     $('printBtn').disabled = false;
   }
@@ -433,7 +415,6 @@ textarea.form-control{resize:vertical;min-height:70px}
       const data = await res.json();
       
       if (data.authorization_url) {
-        saveForm();
         localStorage.setItem('cf_payment_ref', data.reference);
         window.location.href = data.authorization_url;
       } else {
@@ -469,12 +450,11 @@ textarea.form-control{resize:vertical;min-height:70px}
         }
       }
     } catch (e) {
-    console.error("Error checking payment status", e);
+      console.log("Error checking payment status", e);
     }
   }
 
-    window.addEventListener('load', () => {
-    restoreForm();
+  window.addEventListener('load', () => {
     render('cv');
     checkPaymentStatus();
   });
