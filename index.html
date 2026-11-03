@@ -209,6 +209,7 @@ textarea.form-control{resize:vertical;min-height:70px}
 
   // Base Worker URL (No /create-checkout appended here)
   const WORKER_URL = "https://jobscvdocumentpdf.jdevapphub.workers.dev"; 
+  const AI_URL = "https://jobs.jdevapphub.workers.dev";
 
   const sheet = $('documentSheet');
   const pdfSurface = $('pdfSurface');
@@ -311,41 +312,40 @@ textarea.form-control{resize:vertical;min-height:70px}
   }));
   
   // Helper to call AI
-  async function fetchAiText(type, keywords, name) {
+    async function fetchAiText(type, keywords, name) {
     try {
-      const res = await fetch(`${WORKER_URL}/generate-ai`, {
+      const res = await fetch(`${AI_URL}/generate-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type, keywords, name })
       });
       const data = await res.json();
+      if (!res.ok) { console.error('AI error', data); return null; }
       return data.text || null;
     } catch (e) {
-      console.error("AI Fetch Error", e);
+      console.error('AI Fetch Error', e);
       return null;
     }
   }
 
   // Generate CV & Cover Letter
-  $('generateCvBtn').addEventListener('click', async function () {
+    $('generateCvBtn').addEventListener('click', async function () {
     const useAi = $('useAiCover').checked;
     if (useAi) {
       const keywords = prompt("Enter a few keywords for your cover letter (e.g., Chef, hardworking, eager to learn):");
       if (keywords) {
-        const btn = this;
+        const btn = this, label = btn.innerHTML;
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> AI is writing...';
         btn.disabled = true;
-        
+
         const name = (val('cvFirst') + ' ' + val('cvSurname')).trim() || 'the applicant';
-        const aiText = await fetchAiText("cover", keywords, name);
-        
-        if (aiText) {
-          $('coverBody').value = aiText; // Auto-fill the text area
-        } else {
-          alert("AI generation failed. Please write it manually.");
-        }
-        
-        btn.innerHTML = '<i class="fas fa-magic"></i> Generate Preview';
+        const position = val('coverPosition');
+        const aiText = await fetchAiText('cover', position ? `${keywords}. Applying for: ${position}` : keywords, name);
+
+        if (aiText) $('coverBody').value = aiText;
+        else alert('AI generation failed. Please write it manually.');
+
+        btn.innerHTML = label;
         btn.disabled = false;
       }
     }
@@ -353,24 +353,33 @@ textarea.form-control{resize:vertical;min-height:70px}
   });
 
   // Generate Business & Motivation
-  $('generateBizBtn').addEventListener('click', async function () {
+    $('generateBizBtn').addEventListener('click', async function () {
     const useAi = $('useAiBusiness').checked;
     if (useAi) {
       const keywords = prompt("Describe your business in a few words (e.g., Catering, local food, events):");
       if (keywords) {
-        const btn = this;
+        const btn = this, label = btn.innerHTML;
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> AI is writing...';
         btn.disabled = true;
 
         const name = val('bizOwner') || 'the owner';
-        
-        const bizText = await fetchAiText("business", keywords, name);
-        if (bizText) $('bizDesc').value = bizText;
+        const [bizText, marketText, financeText, motText] = await Promise.all([
+          fetchAiText('business', keywords, name),
+          fetchAiText('market', keywords, name),
+          fetchAiText('finance', keywords, name),
+          fetchAiText('motivation', keywords, name)
+        ]);
 
-        const motText = await fetchAiText("motivation", keywords, name);
-        if (motText) $('motText').value = motText;
-        
-        btn.innerHTML = '<i class="fas fa-magic"></i> Generate Preview';
+        if (bizText && !val('bizDesc')) $('bizDesc').value = bizText;
+        if (marketText && !val('bizMarket')) $('bizMarket').value = marketText;
+        if (financeText && !val('bizFinance')) $('bizFinance').value = financeText;
+        if (motText && !val('motText')) $('motText').value = motText;
+
+        if (!bizText && !marketText && !financeText && !motText) {
+          alert('AI generation failed. Please write it manually.');
+        }
+
+        btn.innerHTML = label;
         btn.disabled = false;
       }
     }
