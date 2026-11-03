@@ -128,6 +128,16 @@ textarea.form-control{resize:vertical;min-height:70px}
     <div class="form-group"><label>Letter body</label><textarea id="coverBody" class="form-control" rows="4" placeholder="Write the body of your letter"></textarea></div>
 
     <button class="btn btn-primary btn-full" id="generateCvBtn" style="margin-top:1rem;"><i class="fas fa-magic"></i> Generate Preview</button>
+
+        <!-- ADD THIS FOR CV AI -->
+    <div class="form-group" style="background:#eff6ff; padding:1rem; border-radius:12px; border:1px solid #bfdbfe;">
+      <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer; color:#1e3a8a;">
+        <input type="checkbox" id="useAiCover" style="width:18px; height:18px;">
+        <span>✨ Auto-write cover letter with AI</span>
+      </label>
+      <p class="hint" style="color:#3b82f6; margin-top:0.5rem;">Type a few keywords below and let AI write it for you.</p>
+    </div>
+    
     <p class="hint">A3 size, white background, professional layout.</p>
   </div>
 
@@ -144,6 +154,15 @@ textarea.form-control{resize:vertical;min-height:70px}
     <h3>Motivation Letter</h3>
     <div class="form-group"><label>Programme / Opportunity</label><input id="motProgram" class="form-control" placeholder="Programme / opportunity"></div>
     <div class="form-group"><label>Motivation text</label><textarea id="motText" class="form-control" rows="4" placeholder="Why are you motivated to apply?"></textarea></div>
+    
+        <!-- ADD THIS FOR BUSINESS AI -->
+    <div class="form-group" style="background:#eff6ff; padding:1rem; border-radius:12px; border:1px solid #bfdbfe;">
+      <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer; color:#1e3a8a;">
+        <input type="checkbox" id="useAiBusiness" style="width:18px; height:18px;">
+        <span>✨ Auto-write professional text with AI</span>
+      </label>
+      <p class="hint" style="color:#3b82f6; margin-top:0.5rem;">Type a few keywords in the description and let AI write it for you.</p>
+    </div>
 
     <button class="btn btn-primary btn-full" id="generateBizBtn" style="margin-top:1rem;"><i class="fas fa-magic"></i> Generate Preview</button>
   </div>
@@ -290,8 +309,72 @@ textarea.form-control{resize:vertical;min-height:70px}
     render(activeView);
   }));
   
-  $('generateCvBtn').addEventListener('click', () => render('cv'));
-  $('generateBizBtn').addEventListener('click', () => render('business'));
+  // Helper to call AI
+  async function fetchAiText(type, keywords, name) {
+    try {
+      const res = await fetch(`${WORKER_URL}/generate-ai`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type, keywords, name })
+      });
+      const data = await res.json();
+      return data.text || null;
+    } catch (e) {
+      console.error("AI Fetch Error", e);
+      return null;
+    }
+  }
+
+  // Generate CV & Cover Letter
+  $('generateCvBtn').addEventListener('click', async function () {
+    const useAi = $('useAiCover').checked;
+    if (useAi) {
+      const keywords = prompt("Enter a few keywords for your cover letter (e.g., Chef, hardworking, eager to learn):");
+      if (keywords) {
+        const btn = this;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> AI is writing...';
+        btn.disabled = true;
+        
+        const name = (val('cvFirst') + ' ' + val('cvSurname')).trim() || 'the applicant';
+        const aiText = await fetchAiText("cover", keywords, name);
+        
+        if (aiText) {
+          $('coverBody').value = aiText; // Auto-fill the text area
+        } else {
+          alert("AI generation failed. Please write it manually.");
+        }
+        
+        btn.innerHTML = '<i class="fas fa-magic"></i> Generate Preview';
+        btn.disabled = false;
+      }
+    }
+    render('cv');
+  });
+
+  // Generate Business & Motivation
+  $('generateBizBtn').addEventListener('click', async function () {
+    const useAi = $('useAiBusiness').checked;
+    if (useAi) {
+      const keywords = prompt("Describe your business in a few words (e.g., Catering, local food, events):");
+      if (keywords) {
+        const btn = this;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> AI is writing...';
+        btn.disabled = true;
+
+        const name = val('bizOwner') || 'the owner';
+        
+        const bizText = await fetchAiText("business", keywords, name);
+        if (bizText) $('bizDesc').value = bizText;
+
+        const motText = await fetchAiText("motivation", keywords, name);
+        if (motText) $('motText').value = motText;
+        
+        btn.innerHTML = '<i class="fas fa-magic"></i> Generate Preview';
+        btn.disabled = false;
+      }
+    }
+    render('business');
+  });
 
   /* ---------- Payment & Download Logic ---------- */
   
