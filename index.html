@@ -71,7 +71,7 @@ textarea.form-control{resize:vertical;min-height:70px}
 .payment-banner p{color:#92400e;font-weight:600;margin:0;font-size:.9rem}
 .payment-banner .price-tag{font-size:1.2rem;color:#b45309}
 
-@media print{@page{size:A3 portrait;margin:15mm}body{background:#fff;padding:0;display:block}.app-header,.form-panel,.panel-header{display:none!important}.app-container,.preview-panel,.preview-scroll,.main-content{all:unset;display:block}.document-sheet{box-shadow:none;border:none;max-width:none;padding:0}}
+@media print{@page{size:A4 portrait;margin:15mm}body{background:#fff;padding:0;display:block}.app-header,.form-panel,.panel-header{display:none!important}.app-container,.preview-panel,.preview-scroll,.main-content{all:unset;display:block}.document-sheet{box-shadow:none;border:none;max-width:none;padding:0}}
 @media(max-width:800px){.main-content{padding:1rem}.document-sheet{padding:1.2rem}.row-2,.doc .cols{grid-template-columns:1fr}.nav-btn{padding:.5rem 1rem;font-size:.8rem}}
 </style>
 </head>
@@ -545,11 +545,20 @@ textarea.form-control{resize:vertical;min-height:70px}
     let url = null;
     try {
       await new Promise(r => setTimeout(r, 200));
-      const blob = await html2pdf().set({
+            const blob = await html2pdf().set({
         margin: 0,
+        filename: filename,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', windowWidth: 1122, scrollX: 0, scrollY: 0, logging: false },
-        jsPDF: { unit: 'mm', format: 'a3', orientation: 'portrait' },
+        html2canvas: { 
+          scale: 2, 
+          useCORS: true, 
+          backgroundColor: '#ffffff', 
+          windowWidth: 794, // Matches A4 width
+          scrollX: 0, 
+          scrollY: 0, 
+          logging: false 
+        },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }, // Changed to A4
         pagebreak: { mode: ['css', 'legacy'], avoid: ['h2', 'li', 'tr'] }
       }).from(page).outputPdf('blob');
 
