@@ -18,7 +18,7 @@ header{background:#0f172a;color:#fff;padding:18px 16px;position:sticky;top:0;z-i
 .hero h1{font-size:32px;line-height:1.1}.hero h1 span{color:#16a34a}
 .hero p{color:#475569;margin-top:8px;font-size:15px}
 .tabs{max-width:1150px;margin:18px auto;padding:0 16px;display:flex;gap:10px;flex-wrap:wrap}
-.tab-btn{flex:1;min-width:150px;background:#fff;border:2px solid #e2e8f0;border-radius:14px;padding:14px;cursor:pointer;text-align:left;transition:0.2s}
+.tab-btn{flex:1;min-width:150px;background:#fff;border:2px solid #e2e8f0;border-radius:14px;padding:14px;cursor:pointer;text-align:left}
 .tab-btn.active{border-color:#0f172a;background:#0f172a;color:#fff}
 .tab-btn b{font-size:16px;display:block}.tab-btn small{opacity:.7}
 .price{margin-top:6px;font-weight:900;color:#16a34a}.tab-btn.active .price{color:#4ade80}
@@ -29,32 +29,28 @@ header{background:#0f172a;color:#fff;padding:18px 16px;position:sticky;top:0;z-i
 .card{background:#fff;border-radius:18px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,.06)}
 .card h2{font-size:20px;margin-bottom:4px}.card p{font-size:13px;color:#64748b;margin-bottom:10px}
 label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#334155;display:block;margin:12px 0 5px}
-input,textarea,select{width:100%;padding:12px 13px;border:1.5px solid #e2e8f0;border-radius:11px;font-size:14px;outline:none;background:#f8fafc}
+input,textarea{width:100%;padding:12px 13px;border:1.5px solid #e2e8f0;border-radius:11px;font-size:14px;outline:none;background:#f8fafc}
 input:focus,textarea:focus{border-color:#0f172a;background:#fff}
 textarea{min-height:80px;resize:vertical}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .ai-btn{width:100%;margin-top:10px;background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;border:none;padding:13px;border-radius:11px;font-weight:800;cursor:pointer;font-size:14px}
 .ai-btn:disabled{opacity:.6}
-.btn{width:100%;padding:15px;border:none;border-radius:12px;font-weight:900;font-size:15px;cursor:pointer;margin-top:12px;transition:0.2s}
-.btn-pay{background:#16a34a;color:#fff}.btn-pay:hover{background:#15803d}
-.btn-dl{background:#0f172a;color:#fff}.btn-dl:hover{background:#1e293b}
-.btn-secondary{background:#e2e8f0;color:#0f172a}.btn-secondary:hover{background:#cbd5e1}
-.preview{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.06);position:sticky;top:80px;height:fit-content}
+.btn{width:100%;padding:15px;border:none;border-radius:12px;font-weight:900;font-size:15px;cursor:pointer;margin-top:12px}
+.btn-pay{background:#16a34a;color:#fff}.btn-dl{background:#0f172a;color:#fff}.btn-secondary{background:#e2e8f0;color:#0f172a}
+.preview{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.06);position:sticky;top:80px}
 .preview-head{background:#0f172a;color:#fff;padding:14px 18px;display:flex;justify-content:space-between}
-#previewBody{padding:22px;min-height:560px;font-size:13.5px;line-height:1.6;max-height:80vh;overflow-y:auto}
-/* --- MUENDA STYLE CV --- */
-.mu-name{font-size:28px;font-weight:900;letter-spacing:-.5px;line-height:1;color:#1a2a3a}
+#previewBody{padding:22px;min-height:560px;font-size:13.5px;line-height:1.6}
+.mu-name{font-size:28px;font-weight:900;letter-spacing:-.5px;line-height:1;color:#1a2a3a;text-transform:uppercase}
 .mu-sub{font-size:10px;letter-spacing:2.5px;color:#64748b;margin:4px 0 12px;font-weight:700}
 .mu-top{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;font-size:12.5px;color:#334155;margin-bottom:14px}
-.mu-top b{color:#1e293b}
 .mu-bar{background:#1e3a4a;color:#fff;font-weight:800;font-size:11px;letter-spacing:1px;padding:7px 10px;margin:14px 0 9px;text-transform:uppercase}
 .mu-pd{display:grid;grid-template-columns:1fr 1fr;gap:7px 18px;font-size:12.5px}
-.mu-pd b{color:#1e293b}
 .mu-job{font-weight:800;color:#1a2a3a;font-size:13.5px}
 .mu-year{font-size:11.5px;color:#64748b;margin:2px 0 6px}
 .mu-ul{padding-left:16px;margin:0}.mu-ul li{margin-bottom:4px}
 .notice{background:#fef9c3;border:1px solid #facc15;padding:12px;border-radius:11px;font-size:13px;margin-top:12px}
 .success{background:#dcfce7;border:1px solid #22c55e;padding:12px;border-radius:11px;font-size:13px;margin-top:12px;display:none}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:14px 20px;border-radius:999px;font-weight:700;font-size:14px;z-index:999;display:none;box-shadow:0 10px 30px rgba(0,0,0,.3)}
 .footer{max-width:1150px;margin:20px auto;text-align:center;color:#94a3b8;font-size:12px;padding:0 16px}
 </style>
 </head>
@@ -62,7 +58,7 @@ textarea{min-height:80px;resize:vertical}
 <header><div class="top"><div class="logo">CAREER<span>FORGE</span> PRO</div><div class="badge">R20 PER DOCUMENT • INSTANT PDF</div></div></header>
 <div class="hero">
 <h1>Build a job-winning<br><span>CV, Cover Letter & Motivation</span> in 5 minutes.</h1>
-<p>Same professional layout as the example CV you sent - but pre-filled with generic placeholders. Fill → Tap <b>✨ AI Assist</b> → Pay R20 → Download real PDF.</p>
+<p>Type your details → See them live in preview → Tap <b>✨ AI Assist</b> → Pay R20 → Download PDF with <b>YOUR</b> details.</p>
 <div id="globalMsg" class="success"></div>
 </div>
 <div class="tabs">
@@ -73,50 +69,39 @@ textarea{min-height:80px;resize:vertical}
 
 <div class="wrap">
 <div class="card">
-<!-- CV FORM -->
 <div id="form-cv">
-<h2>📄 Your CV Details</h2><p>Pre-filled with generic placeholders. User just replaces them.</p>
-<div class="row"><div><label>First Names *</label><input id="cv-first" placeholder="e.g. Your First Names" value="Your First Names"></div><div><label>Surname *</label><input id="cv-surname" placeholder="e.g. Your Surname" value="Your Surname"></div></div>
-<div class="row"><div><label>Full Name (auto)</label><input id="cv-name" placeholder="Your Name" value="Your Name"></div><div><label>Email * for payment</label><input id="cv-email" type="email" placeholder="you@gmail.com"></div></div>
-<div class="row"><div><label>Phone</label><input id="cv-phone" placeholder="e.g. 071 123 4567" value="071 123 4567"></div><div><label>Location / Address</label><input id="cv-location" placeholder="e.g. Your Village / Town" value="Your Village, Stand No."></div></div>
-<div class="row"><div><label>Date of Birth</label><input id="cv-dob" placeholder="e.g. 03 May 1995" value="03 May 1995"></div><div><label>Nationality</label><input id="cv-nationality" value="South African"></div></div>
-<div class="row"><div><label>Home Language</label><input id="cv-homeLang" placeholder="e.g. Your Home Language" value="Your Home Language"></div><div><label>Other Language</label><input id="cv-otherLang" value="English"></div></div>
-<label>Job Title You Want *</label><input id="cv-jobTitle" placeholder="e.g. Chef Assistant, Cashier, Admin Assistant" value="Chef Assistant">
-<label>Company / Last Job</label><input id="cv-company" placeholder="e.g. Company Name" value="Company Name">
-<label>Years - e.g. 2018–2019</label><input id="cv-years" placeholder="e.g. 2018–2019" value="2018–2019">
-<label>School</label><input id="cv-school" placeholder="e.g. Your Secondary School" value="Your Secondary School">
-<label>Year Completed Matric</label><input id="cv-yearCompleted" placeholder="e.g. 2017" value="2017">
-<label>Career Objective - AI will fill this</label><textarea id="cv-summary" placeholder="Tap AI Assist...">A hardworking and reliable individual seeking an opportunity to contribute to a professional workplace. I aim to use my experience, willingness to learn and ability to work well with others to support daily operations, maintain high standards and deliver good service.</textarea>
+<h2>📄 Your CV Details</h2><p>All fields start EMPTY. Type yours - preview on the right will change instantly.</p>
+<div class="row"><div><label>First Names *</label><input id="cv-first" placeholder="Your First Names"></div><div><label>Surname *</label><input id="cv-surname" placeholder="Your Surname"></div></div>
+<label>Full Name (auto from above - you can also type here)</label><input id="cv-name" placeholder="Your Full Name">
+<div class="row"><div><label>Email * for payment</label><input id="cv-email" type="email" placeholder="you@gmail.com"></div><div><label>Phone</label><input id="cv-phone" placeholder="071 123 4567"></div></div>
+<label>Location / Address</label><input id="cv-location" placeholder="Your Village / Town, Stand No.">
+<div class="row"><div><label>Date of Birth</label><input id="cv-dob" placeholder="03 May 1995"></div><div><label>Nationality</label><input id="cv-nationality" placeholder="South African"></div></div>
+<div class="row"><div><label>Home Language</label><input id="cv-homeLang" placeholder="Your Home Language"></div><div><label>Other Language</label><input id="cv-otherLang" placeholder="English"></div></div>
+<label>Job Title You Want *</label><input id="cv-jobTitle" placeholder="e.g. Chef Assistant, Cashier, Admin Assistant">
+<label>Company / Last Job</label><input id="cv-company" placeholder="Company Name">
+<label>Years - e.g. 2018–2019</label><input id="cv-years" placeholder="2018–2019">
+<label>School</label><input id="cv-school" placeholder="Your Secondary School">
+<label>Year Completed Matric</label><input id="cv-yearCompleted" placeholder="2017">
+<label>Career Objective - AI will fill this</label><textarea id="cv-summary" placeholder="Tap AI Assist below to generate..."></textarea>
 <button class="ai-btn" id="ai-cv-btn" onclick="aiCV()">✨ AI ASSIST - Write My Career Objective + Duties + Knowledge</button>
-<label>Work Experience Duties - one per line, AI will fill</label><textarea id="cv-desc" style="min-height:110px">Assisted with food preparation, including chopping, slicing and measuring ingredients.
-Supported team with cooking and assembling work while following instructions.
-Received and stored deliveries and rotated stock to maintain freshness.
-Worked with staff to coordinate timely preparation of orders.</textarea>
-<label>Knowledge - one per line</label><textarea id="cv-knowledge">Basic preparation and operations for my job title.
-Understanding of storage, stock rotation and freshness.
-Awareness of cleanliness and safe handling practices.
-Ability to follow instructions and workplace procedures.</textarea>
-<label>Skills - one per line</label><textarea id="cv-skills">Good communication and interpersonal skills.
-Time management and punctuality.
-Teamwork and cooperation.
-Ability to work under pressure in a busy environment.
-Willingness to learn and take instructions.
-Organisation, attention to detail and a positive work attitude.</textarea>
-<label>Reference 1 - Name</label><input id="cv-ref1name" placeholder="e.g. Reference Name" value="Reference Name">
-<label>Reference 1 - Phone</label><input id="cv-ref1phone" placeholder="e.g. 072 000 0000" value="072 000 0000">
-<label>Reference 2 - Name</label><input id="cv-ref2name" placeholder="e.g. Reference Name" value="Reference Name">
-<label>Reference 2 - Phone</label><input id="cv-ref2phone" placeholder="e.g. 076 000 0000" value="076 000 0000">
-<div class="notice">✅ This is the exact Muenda layout - just with generic names. Edit any field, preview updates live.</div>
+<label>Work Experience Duties - one per line</label><textarea id="cv-desc" style="min-height:110px" placeholder="e.g. Assisted with food preparation..."></textarea>
+<label>Knowledge - one per line</label><textarea id="cv-knowledge" placeholder="e.g. Basic preparation and operations..."></textarea>
+<label>Skills - one per line</label><textarea id="cv-skills" placeholder="e.g. Good communication..."></textarea>
+<label>Reference 1 - Name</label><input id="cv-ref1name" placeholder="Reference Name">
+<label>Reference 1 - Phone</label><input id="cv-ref1phone" placeholder="072 000 0000">
+<label>Reference 2 - Name</label><input id="cv-ref2name" placeholder="Reference Name">
+<label>Reference 2 - Phone</label><input id="cv-ref2phone" placeholder="076 000 0000">
+<div class="notice">👀 Check the LIVE PREVIEW on the right - if your name shows there, it WILL show in the PDF. If it still says YOUR NAME, you haven't typed yet.</div>
 <button class="btn btn-pay" id="pay-cv" onclick="payFor('cv')">🔒 Pay R20 - Unlock CV PDF</button>
 <button class="btn btn-dl" id="dl-cv" onclick="downloadDoc('cv')" style="display:none">⬇️ Download My CV PDF</button>
 </div>
 
 <div id="form-cover" style="display:none">
-<h2>✉️ Cover Letter Details</h2><p>AI writes full letter body from Job Title + Company.</p>
+<h2>✉️ Cover Letter Details</h2>
 <div class="row"><div><label>Full Name *</label><input id="cover-name" placeholder="Your Name"></div><div><label>Email *</label><input id="cover-email" type="email" placeholder="you@gmail.com"></div></div>
-<div class="row"><div><label>Job Title *</label><input id="cover-jobTitle" placeholder="e.g. Admin Assistant"></div><div><label>Company *</label><input id="cover-company" placeholder="e.g. Company Name"></div></div>
+<div class="row"><div><label>Job Title *</label><input id="cover-jobTitle" placeholder="Admin Assistant"></div><div><label>Company *</label><input id="cover-company" placeholder="Company Name"></div></div>
 <label>Hiring Manager (optional)</label><input id="cover-manager" placeholder="Hiring Manager">
-<label>Your Top Skill / Why You</label><input id="cover-why" placeholder="e.g. 2 years retail, great with customers">
+<label>Your Top Skill / Why You</label><input id="cover-why" placeholder="2 years retail, great with customers">
 <label>Cover Letter Body - AI will fill this</label><textarea id="cover-body" style="min-height:180px" placeholder="Tap AI Assist..."></textarea>
 <button class="ai-btn" id="ai-cover-btn" onclick="aiCover()">✨ AI ASSIST - Write My Cover Letter Body</button>
 <button class="btn btn-pay" id="pay-cover" onclick="payFor('cover')">🔒 Pay R20 - Unlock Cover Letter PDF</button>
@@ -124,32 +109,35 @@ Organisation, attention to detail and a positive work attitude.</textarea>
 </div>
 
 <div id="form-motivation" style="display:none">
-<h2>🎯 Motivation Letter Details</h2><p>AI writes motivation based on Opportunity + Organisation.</p>
+<h2>🎯 Motivation Letter Details</h2>
 <div class="row"><div><label>Full Name *</label><input id="motivation-name" placeholder="Your Name"></div><div><label>Email *</label><input id="motivation-email" type="email" placeholder="you@gmail.com"></div></div>
-<div class="row"><div><label>Opportunity *</label><input id="motivation-opportunity" placeholder="e.g. Bursary, Learnership"></div><div><label>Organisation *</label><input id="motivation-org" placeholder="e.g. Organisation Name"></div></div>
-<label>Field / Course / Job</label><input id="motivation-field" placeholder="e.g. IT, Accounting">
-<label>Why You Deserve It (1 line)</label><input id="motivation-why" placeholder="e.g. Hardworking, first in family to study">
+<div class="row"><div><label>Opportunity *</label><input id="motivation-opportunity" placeholder="Bursary, Learnership"></div><div><label>Organisation *</label><input id="motivation-org" placeholder="Organisation Name"></div></div>
+<label>Field / Course / Job</label><input id="motivation-field" placeholder="IT, Accounting">
+<label>Why You Deserve It (1 line)</label><input id="motivation-why" placeholder="Hardworking, first in family to study">
 <label>Motivation Text - AI will fill this</label><textarea id="motivation-body" style="min-height:180px" placeholder="Tap AI Assist..."></textarea>
 <button class="ai-btn" id="ai-motivation-btn" onclick="aiMotivation()">✨ AI ASSIST - Write My Motivation Text</button>
 <button class="btn btn-pay" id="pay-motivation" onclick="payFor('motivation')">🔒 Pay R20 - Unlock Motivation PDF</button>
 <button class="btn btn-dl" id="dl-motivation" onclick="downloadDoc('motivation')" style="display:none">⬇️ Download Motivation PDF</button>
 </div>
-<button class="btn btn-secondary" onclick="saveAll()">💾 Save My Details</button>
+<button class="btn btn-secondary" id="saveBtn" onclick="saveAll(true)">💾 Save My Details</button>
+<button class="btn btn-secondary" onclick="fillExample()">✨ Fill Example To Test (then replace with yours)</button>
+<button class="btn btn-secondary" onclick="clearAll()" style="background:#fee2e2;color:#991b1b">🗑️ Clear All & Start Fresh</button>
 </div>
 
 <div class="preview"><div class="preview-head"><span>LIVE PREVIEW - Muenda Style</span><small id="previewDoc">CV • R20</small></div><div id="previewBody"></div></div>
 </div>
 <div class="footer">CareerForge Pro • Secure payment via Paystack • R20 per document • Made in South Africa 🇿🇦</div>
+<div id="toast" class="toast"></div>
 
 <script>
-// --- CONFIGURATION ---
-const AI_URL = "https://jobscvdocumentpdf.jdevapphub.workers.dev/generate-ai";
-const WORKER_URL = "https://jobscvdocumentpdf.jdevapphub.workers.dev";
-const PAYSTACK_PUBLIC_KEY = "pk_live_YOUR_PAYSTACK_PUBLIC_KEY_HERE"; // <-- REPLACE WITH YOUR PUBLIC KEY
-
+const AI_URL="https://jobs.jdevapphub.workers.dev/";
+const WORKER_URL="https://jobs.jdevapphub.workers.dev/";
+const PAYSTACK_PUBLIC_KEY="pk_live_REPLACE_WITH_YOUR_KEY";
 let currentTab='cv';
 let paid=JSON.parse(localStorage.getItem('cf_paid_v2')||'{}');
+let syncing=false;
 
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.style.display='block'; setTimeout(()=>t.style.display='none',3000); }
 function showTab(tab,btn){
   currentTab=tab;
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -158,74 +146,87 @@ function showTab(tab,btn){
   document.getElementById('previewDoc').textContent=tab.toUpperCase()+' • R20';
   renderPreview(); updatePaidUI();
 }
-
 function getData(){
-  const g=id=>document.getElementById(id)?.value||'';
-  let full=g('cv-name');
-  if(g('cv-first') && g('cv-surname') && (full==='Your Name'||full==='')) full=g('cv-first')+' '+g('cv-surname');
-  
+  const g=id=>document.getElementById(id)?.value.trim()||'';
   return{
-    cv:{first:g('cv-first'),surname:g('cv-surname'),name:full,email:g('cv-email'),phone:g('cv-phone'),location:g('cv-location'),dob:g('cv-dob'),nationality:g('cv-nationality'),homeLang:g('cv-homeLang'),otherLang:g('cv-otherLang'),jobTitle:g('cv-jobTitle'),company:g('cv-company'),years:g('cv-years'),school:g('cv-school'),yearCompleted:g('cv-yearCompleted'),summary:g('cv-summary'),desc:g('cv-desc'),knowledge:g('cv-knowledge'),skills:g('cv-skills'),ref1name:g('cv-ref1name'),ref1phone:g('cv-ref1phone'),ref2name:g('cv-ref2name'),ref2phone:g('cv-ref2phone')},
+    cv:{first:g('cv-first'),surname:g('cv-surname'),name:g('cv-name'),email:g('cv-email'),phone:g('cv-phone'),location:g('cv-location'),dob:g('cv-dob'),nationality:g('cv-nationality'),homeLang:g('cv-homeLang'),otherLang:g('cv-otherLang'),jobTitle:g('cv-jobTitle'),company:g('cv-company'),years:g('cv-years'),school:g('cv-school'),yearCompleted:g('cv-yearCompleted'),summary:g('cv-summary'),desc:g('cv-desc'),knowledge:g('cv-knowledge'),skills:g('cv-skills'),ref1name:g('cv-ref1name'),ref1phone:g('cv-ref1phone'),ref2name:g('cv-ref2name'),ref2phone:g('cv-ref2phone')},
     cover:{name:g('cover-name'),email:g('cover-email'),jobTitle:g('cover-jobTitle'),company:g('cover-company'),manager:g('cover-manager'),why:g('cover-why'),body:g('cover-body')},
     motivation:{name:g('motivation-name'),email:g('motivation-email'),opportunity:g('motivation-opportunity'),org:g('motivation-org'),field:g('motivation-field'),why:g('motivation-why'),body:g('motivation-body')}
   };
 }
-
-function saveAll(){ 
-  localStorage.setItem('cf_data_v3',JSON.stringify(getData())); 
-  const d=getData(); 
-  if(d.cv.name){
-    ['cover-name','motivation-name'].forEach(id=>{
-      if(!document.getElementById(id).value) document.getElementById(id).value=d.cv.name
-    })
-  } 
-  if(d.cv.email){
-    ['cover-email','motivation-email'].forEach(id=>{
-      if(!document.getElementById(id).value) document.getElementById(id).value=d.cv.email
-    })
-  } 
-  renderPreview(); 
+function saveAll(showMsg){
+  const d=getData();
+  localStorage.setItem('cf_data_v4',JSON.stringify(d));
+  if(showMsg){
+    if(d.cv.name) showToast('✅ Saved! Name saved as: '+d.cv.name);
+    else if(d.cv.first) showToast('✅ Saved! Name: '+d.cv.first+' '+d.cv.surname);
+    else showToast('✅ Saved! (Your form is still empty - type your name first)');
+    const m=document.getElementById('globalMsg'); m.style.display='block'; m.textContent='✅ Saved at '+new Date().toLocaleTimeString()+' - Name: '+(d.cv.name||d.cv.first+' '+d.cv.surname||'empty')+' | Email: '+(d.cv.email||'empty');
+  }
+  renderPreview();
 }
-
-function loadAll(){ 
-  try{ 
-    const d=JSON.parse(localStorage.getItem('cf_data_v3')||'{}'); 
-    const set=(id,v)=>{if(v!==undefined && document.getElementById(id)) document.getElementById(id).value=v}; 
-    
-    if(d.cv){
-      Object.keys(d.cv).forEach(k=>{ 
-        const map={first:'cv-first',surname:'cv-surname',name:'cv-name',email:'cv-email',phone:'cv-phone',location:'cv-location',dob:'cv-dob',nationality:'cv-nationality',homeLang:'cv-homeLang',otherLang:'cv-otherLang',jobTitle:'cv-jobTitle',company:'cv-company',years:'cv-years',school:'cv-school',yearCompleted:'cv-yearCompleted',summary:'cv-summary',desc:'cv-desc',knowledge:'cv-knowledge',skills:'cv-skills',ref1name:'cv-ref1name',ref1phone:'cv-ref1phone',ref2name:'cv-ref2name',ref2phone:'cv-ref2phone'}; 
-        if(map[k]) set(map[k],d.cv[k])
-      })
-    } 
-    if(d.cover){
-      set('cover-name',d.cover.name);set('cover-email',d.cover.email);set('cover-jobTitle',d.cover.jobTitle);set('cover-company',d.cover.company);set('cover-manager',d.cover.manager);set('cover-why',d.cover.why);set('cover-body',d.cover.body)
-    } 
-    if(d.motivation){
-      set('motivation-name',d.motivation.name);set('motivation-email',d.motivation.email);set('motivation-opportunity',d.motivation.opportunity);set('motivation-org',d.motivation.org);set('motivation-field',d.motivation.field);set('motivation-why',d.motivation.why);set('motivation-body',d.motivation.body)
-    } 
-  }catch(e){ console.log(e) } 
+function loadAll(){
+  try{
+    const d=JSON.parse(localStorage.getItem('cf_data_v4')||'{}');
+    const set=(id,v)=>{if(v!==undefined && document.getElementById(id)) document.getElementById(id).value=v};
+    if(d.cv){ set('cv-first',d.cv.first); set('cv-surname',d.cv.surname); set('cv-name',d.cv.name); set('cv-email',d.cv.email); set('cv-phone',d.cv.phone); set('cv-location',d.cv.location); set('cv-dob',d.cv.dob); set('cv-nationality',d.cv.nationality); set('cv-homeLang',d.cv.homeLang); set('cv-otherLang',d.cv.otherLang); set('cv-jobTitle',d.cv.jobTitle); set('cv-company',d.cv.company); set('cv-years',d.cv.years); set('cv-school',d.cv.school); set('cv-yearCompleted',d.cv.yearCompleted); set('cv-summary',d.cv.summary); set('cv-desc',d.cv.desc); set('cv-knowledge',d.cv.knowledge); set('cv-skills',d.cv.skills); set('cv-ref1name',d.cv.ref1name); set('cv-ref1phone',d.cv.ref1phone); set('cv-ref2name',d.cv.ref2name); set('cv-ref2phone',d.cv.ref2phone); }
+    if(d.cover){ set('cover-name',d.cover.name); set('cover-email',d.cover.email); set('cover-jobTitle',d.cover.jobTitle); set('cover-company',d.cover.company); set('cover-manager',d.cover.manager); set('cover-why',d.cover.why); set('cover-body',d.cover.body); }
+    if(d.motivation){ set('motivation-name',d.motivation.name); set('motivation-email',d.motivation.email); set('motivation-opportunity',d.motivation.opportunity); set('motivation-org',d.motivation.org); set('motivation-field',d.motivation.field); set('motivation-why',d.motivation.why); set('motivation-body',d.motivation.body); }
+  }catch(e){}
+  // CLEAR old buggy v2/v3 data that had "Your Name" as real values
+  localStorage.removeItem('cf_data_v2'); localStorage.removeItem('cf_data_v3');
 }
-
-document.addEventListener('input',saveAll);
-
+// FIX: Sync First+Surname <-> Full Name WITHOUT overwriting user's typing
+document.getElementById('cv-first').addEventListener('input',()=>{
+  if(syncing) return; syncing=true;
+  const f=document.getElementById('cv-first').value.trim(); const s=document.getElementById('cv-surname').value.trim();
+  if(f||s) document.getElementById('cv-name').value=(f+' '+s).trim();
+  // also sync to cover/motivation if empty
+  if(f) { if(!document.getElementById('cover-name').value) document.getElementById('cover-name').value=(f+' '+s).trim(); if(!document.getElementById('motivation-name').value) document.getElementById('motivation-name').value=(f+' '+s).trim(); }
+  syncing=false; saveAll(false);
+});
+document.getElementById('cv-surname').addEventListener('input',()=>{
+  if(syncing) return; syncing=true;
+  const f=document.getElementById('cv-first').value.trim(); const s=document.getElementById('cv-surname').value.trim();
+  if(f||s) document.getElementById('cv-name').value=(f+' '+s).trim();
+  syncing=false; saveAll(false);
+});
+document.getElementById('cv-name').addEventListener('input',()=>{
+  if(syncing) return; syncing=true;
+  const parts=document.getElementById('cv-name').value.trim().split(/\s+/);
+  if(parts.length>=2){ document.getElementById('cv-first').value=parts[0]; document.getElementById('cv-surname').value=parts.slice(1).join(' '); }
+  syncing=false; saveAll(false);
+});
+document.addEventListener('input',(e)=>{ if(e.target.id && !['cv-first','cv-surname','cv-name'].includes(e.target.id)) saveAll(false); });
+function fillExample(){
+  document.getElementById('cv-first').value='Thabo'; document.getElementById('cv-surname').value='Mokoena'; document.getElementById('cv-name').value='Thabo Mokoena';
+  document.getElementById('cv-email').value='thabo@example.com'; document.getElementById('cv-phone').value='071 123 4567'; document.getElementById('cv-location').value='Durban, KZN'; document.getElementById('cv-dob').value='03 May 1995'; document.getElementById('cv-nationality').value='South African'; document.getElementById('cv-homeLang').value='Zulu'; document.getElementById('cv-otherLang').value='English';
+  document.getElementById('cv-jobTitle').value='Chef Assistant'; document.getElementById('cv-company').value='Kalahari Water Front'; document.getElementById('cv-years').value='2018–2019'; document.getElementById('cv-school').value='Mushaathomi Secondary School'; document.getElementById('cv-yearCompleted').value='2017';
+  document.getElementById('cv-summary').value='A hardworking and reliable individual seeking an opportunity to contribute to a professional workplace. I aim to use my food preparation experience, willingness to learn and ability to work well with others to support daily operations, maintain high standards and deliver good service.';
+  document.getElementById('cv-desc').value='Assisted with food preparation, including chopping, slicing and measuring ingredients.\nSupported chefs with cooking and assembling dishes while following recipes.\nReceived and stored food deliveries and rotated stock to maintain freshness.\nWorked with kitchen staff to coordinate timely preparation of orders.';
+  document.getElementById('cv-knowledge').value='Basic food preparation and kitchen operations.\nUnderstanding of food storage, stock rotation and freshness.\nAwareness of kitchen cleanliness and safe food-handling practices.\nAbility to follow recipes and workplace procedures.';
+  document.getElementById('cv-skills').value='Good communication and interpersonal skills.\nTime management and punctuality.\nTeamwork and cooperation.\nAbility to work under pressure.';
+  document.getElementById('cv-ref1name').value='Reference Name'; document.getElementById('cv-ref1phone').value='072 000 0000'; document.getElementById('cv-ref2name').value='Reference Name 2'; document.getElementById('cv-ref2phone').value='076 000 0000';
+  document.getElementById('cover-name').value='Thabo Mokoena'; document.getElementById('motivation-name').value='Thabo Mokoena';
+  saveAll(true); showToast('Example filled - now replace Thabo with YOUR details and Save again');
+}
+function clearAll(){ if(!confirm('Clear everything and start fresh?')) return; localStorage.removeItem('cf_data_v4'); document.querySelectorAll('input,textarea').forEach(el=>el.value=''); saveAll(false); showToast('Cleared - start fresh'); }
 function esc(s){return (s||'').replace(/</g,'&lt;')}
 function linesToLi(txt){ return txt.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>`<li>${esc(l.replace(/^•\s*/,''))}</li>`).join('') }
-
 function renderPreview(){
   const d=getData(); let h='';
+  const showName = d.cv.name || (d.cv.first+' '+d.cv.surname).trim() || 'YOUR NAME';
   if(currentTab==='cv'){
     const c=d.cv;
-    h=`<div class="mu-name">${esc(c.name.toUpperCase()||'YOUR NAME')}</div><div class="mu-sub">CURRICULUM VITAE</div>
-    <div class="mu-top"><div><b>Phone</b> &nbsp;${esc(c.phone)}</div><div><b>Location</b> &nbsp;${esc(c.location)}</div><div><b>Nationality</b> &nbsp;${esc(c.nationality)}</div><div><b>Languages</b> &nbsp;${esc(c.homeLang)} and ${esc(c.otherLang)}</div></div>
-    <div class="mu-bar">Career Objective</div><div>${esc(c.summary)}</div>
-    <div class="mu-bar">Personal Details</div><div class="mu-pd"><div><b>Surname</b></div><div>${esc(c.surname)}</div><div><b>First names</b></div><div>${esc(c.first)}</div><div><b>Date of birth</b></div><div>${esc(c.dob)}</div><div><b>Home language</b></div><div>${esc(c.homeLang)}</div><div><b>Other language</b></div><div>${esc(c.otherLang)}</div><div><b>Nationality</b></div><div>${esc(c.nationality)}</div></div>
-    <div class="mu-bar">Education</div><div><b>${esc(c.school)} — Grade 12 (Matric)</b><br><span style="color:#64748b;font-size:12px">Year completed: ${esc(c.yearCompleted)} | Grade 12 results attached</span></div>
-    <div class="mu-bar">Work Experience</div><div class="mu-job">${esc(c.jobTitle)} — ${esc(c.company)}</div><div class="mu-year">${esc(c.years)}</div><ul class="mu-ul">${linesToLi(c.desc)}</ul>
+    h=`<div class="mu-name">${esc(showName)}</div><div class="mu-sub">CURRICULUM VITAE</div>
+    <div class="mu-top"><div><b>Phone</b> &nbsp;${esc(c.phone||'Phone')}</div><div><b>Location</b> &nbsp;${esc(c.location||'Location')}</div><div><b>Nationality</b> &nbsp;${esc(c.nationality||'Nationality')}</div><div><b>Languages</b> &nbsp;${esc(c.homeLang||'Home Language')} and ${esc(c.otherLang||'Other Language')}</div></div>
+    <div class="mu-bar">Career Objective</div><div>${esc(c.summary||'Your Career Objective will show here...')}</div>
+    <div class="mu-bar">Personal Details</div><div class="mu-pd"><div><b>Surname</b></div><div>${esc(c.surname||'Your Surname')}</div><div><b>First names</b></div><div>${esc(c.first||'Your First Names')}</div><div><b>Date of birth</b></div><div>${esc(c.dob||'Date of birth')}</div><div><b>Home language</b></div><div>${esc(c.homeLang||'Home Language')}</div><div><b>Other language</b></div><div>${esc(c.otherLang||'Other Language')}</div><div><b>Nationality</b></div><div>${esc(c.nationality||'Nationality')}</div></div>
+    <div class="mu-bar">Education</div><div><b>${esc(c.school||'Your School')} — Grade 12 (Matric)</b><br><span style="color:#64748b;font-size:12px">Year completed: ${esc(c.yearCompleted||'Year')} | Grade 12 results attached</span></div>
+    <div class="mu-bar">Work Experience</div><div class="mu-job">${esc(c.jobTitle||'Job Title')} — ${esc(c.company||'Company')}</div><div class="mu-year">${esc(c.years||'Years')}</div><ul class="mu-ul">${linesToLi(c.desc)||'<li>Your duties will show here...</li>'}</ul>
     <div class="mu-bar">Knowledge</div><ul class="mu-ul">${linesToLi(c.knowledge)}</ul>
     <div class="mu-bar">Skills</div><ul class="mu-ul">${linesToLi(c.skills)}</ul>
-    <div class="mu-bar">References</div><div style="display:flex;justify-content:space-between"><b>${esc(c.ref1name)}</b><span>${esc(c.ref1phone)}</span></div><div style="display:flex;justify-content:space-between;margin-top:6px"><b>${esc(c.ref2name)}</b><span>${esc(c.ref2phone)}</span></div>
-    <div style="font-size:11px;color:#64748b;margin-top:12px">The identity number has been left off for privacy. Add an email address if available before submitting applications.</div>`;
+    <div class="mu-bar">References</div><div style="display:flex;justify-content:space-between"><b>${esc(c.ref1name||'Reference Name')}</b><span>${esc(c.ref1phone||'Phone')}</span></div><div style="display:flex;justify-content:space-between;margin-top:6px"><b>${esc(c.ref2name||'Reference Name')}</b><span>${esc(c.ref2phone||'Phone')}</span></div>`;
   } else if(currentTab==='cover'){
     const c=d.cover;
     h=`<div style="text-align:right">${new Date().toLocaleDateString('en-ZA',{day:'numeric',month:'long',year:'numeric'})}</div><br><b>${esc(c.name||'Your Name')}</b><br>${esc(c.email||'Email')}<br><br>Dear ${esc(c.manager||'Hiring Manager')},<br><br><b>Re: Application for ${esc(c.jobTitle||'Position')} at ${esc(c.company||'Company')}</b><br><br>${esc(c.body||'Tap ✨ AI Assist...')}<br><br>Yours sincerely,<br><b>${esc(c.name||'Your Name')}</b>`;
@@ -235,335 +236,99 @@ function renderPreview(){
   }
   document.getElementById('previewBody').innerHTML=h;
 }
-
-async function callAI(type, keywords, name){
-  try {
-    const res = await fetch(AI_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type, keywords, name })
-    });
-    const data = await res.json();
-    return data.text || null;
-  } catch (e) {
-    console.error("AI Fetch Error", e);
-    return null;
-  }
+async function callAI(prompt){
+  const tries=[{url:AI_URL,body:{prompt,message:prompt}},{url:AI_URL+'ai',body:{prompt}},{url:AI_URL+'generate',body:{prompt}}];
+  for(let t of tries){ try{ const r=await fetch(t.url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(t.body)}); if(!r.ok) continue; const j=await r.json().catch(()=>({})); const txt=j.text||j.response||j.result||j.output||j.answer||j.choices?.[0]?.message?.content||''; if(txt&&txt.length>20) return txt; }catch(e){} }
+  return null;
 }
-
 async function aiCV(){
   const btn=document.getElementById('ai-cv-btn'); btn.disabled=true; btn.textContent='⏳ AI is writing...';
-  const job=document.getElementById('cv-jobTitle').value||'General Worker'; 
-  const name=document.getElementById('cv-first').value||'the applicant';
-  
-  const aiText = await callAI('cover', job, name);
-  
-  if(aiText){
-    document.getElementById('cv-summary').value=aiText;
+  const job=document.getElementById('cv-jobTitle').value||'General Worker'; const comp=document.getElementById('cv-company').value||'Company Name';
+  const ai=await callAI(`For South African CV for ${job} at ${comp}: Write 1) CAREER OBJECTIVE 3 sentences, 2) 4 WORK DUTIES bullet lines, 3) 4 KNOWLEDGE bullet lines. Return as OBJECTIVE: ... DUTIES: ... KNOWLEDGE: ...`);
+  if(ai){
+    const o=ai.match(/OBJECTIVE[:\s]*([\s\S]*?)(DUTIES|KNOWLEDGE|$)/i); const du=ai.match(/DUTIES[:\s]*([\s\S]*?)(KNOWLEDGE|$)/i); const kn=ai.match(/KNOWLEDGE[:\s]*([\s\S]*)/i);
+    if(o) document.getElementById('cv-summary').value=o[1].trim();
+    if(du) document.getElementById('cv-desc').value=du[1].replace(/•/g,'').trim();
+    if(kn) document.getElementById('cv-knowledge').value=kn[1].replace(/•/g,'').trim();
   } else {
-    document.getElementById('cv-summary').value=`A hardworking and reliable individual seeking an opportunity as a ${job}. I aim to use my experience, willingness to learn and ability to work well with others to support daily operations, maintain high standards of cleanliness and deliver good service.`;
+    document.getElementById('cv-summary').value=`A hardworking and reliable individual seeking an opportunity as a ${job}. I aim to use my experience, willingness to learn and ability to work well with others to support daily operations, maintain high standards and deliver good service.`;
   }
-  saveAll(); btn.disabled=false; btn.textContent='✨ AI ASSIST - Write My Career Objective + Duties + Knowledge';
+  saveAll(true); btn.disabled=false; btn.textContent='✨ AI ASSIST - Write My Career Objective + Duties + Knowledge';
 }
-
 async function aiCover(){
   const btn=document.getElementById('ai-cover-btn'); btn.disabled=true; btn.textContent='⏳ AI is writing...';
-  const job=document.getElementById('cover-jobTitle').value||'the position'; 
-  const comp=document.getElementById('cover-company').value||'your company'; 
-  const why=document.getElementById('cover-why').value||'customer service and teamwork';
-  const name=document.getElementById('cover-name').value||'the applicant';
-  
-  const aiText = await callAI('cover', `${job} at ${comp}. My strengths: ${why}`, name);
-  
-  document.getElementById('cover-body').value=aiText||`I am writing to apply for the ${job} position at ${comp}. I was excited to see this opportunity because it matches my skills and passion.\n\nWith strengths in ${why}, I am confident I can contribute to your team. I am hardworking, punctual and eager to learn.\n\nI would welcome the chance to discuss how I can support ${comp}. Thank you for considering my application.`;
-  saveAll(); btn.disabled=false; btn.textContent='✨ AI ASSIST - Write My Cover Letter Body';
+  const job=document.getElementById('cover-jobTitle').value||'the position'; const comp=document.getElementById('cover-company').value||'your company'; const why=document.getElementById('cover-why').value||'customer service and teamwork';
+  const ai=await callAI(`Write professional Cover Letter Body 3 paragraphs for South African applying for ${job} at ${comp}. Strength: ${why}.`);
+  document.getElementById('cover-body').value=ai||`I am writing to apply for the ${job} position at ${comp}. I was excited to see this opportunity because it matches my skills and passion.\n\nWith strengths in ${why}, I am confident I can contribute to your team. I am hardworking, punctual and eager to learn.\n\nI would welcome the chance to discuss how I can support ${comp}. Thank you for considering my application.`;
+  saveAll(true); btn.disabled=false; btn.textContent='✨ AI ASSIST - Write My Cover Letter Body';
 }
-
 async function aiMotivation(){
   const btn=document.getElementById('ai-motivation-btn'); btn.disabled=true; btn.textContent='⏳ AI is writing...';
-  const opp=document.getElementById('motivation-opportunity').value||'opportunity'; 
-  const org=document.getElementById('motivation-org').value||'the organisation'; 
-  const field=document.getElementById('motivation-field').value||'my field'; 
-  const why=document.getElementById('motivation-why').value||'hardworking and determined';
-  const name=document.getElementById('motivation-name').value||'the applicant';
-  
-  const aiText = await callAI('motivation', `${opp} at ${org} in ${field}. Reason: ${why}`, name);
-  
-  document.getElementById('motivation-body').value=aiText||`I am writing to express my strong motivation for the ${opp} at ${org} in ${field}.\n\nThis opportunity means a great deal to me because I am committed to building a better future. I believe hard work and discipline will help me achieve my goals.\n\nI am ${why}. I am punctual, respectful and willing to learn.\n\nBeing selected by ${org} would change my life and allow me to inspire others. Thank you for considering my application.`;
-  saveAll(); btn.disabled=false; btn.textContent='✨ AI ASSIST - Write My Motivation Text';
+  const opp=document.getElementById('motivation-opportunity').value||'opportunity'; const org=document.getElementById('motivation-org').value||'the organisation'; const field=document.getElementById('motivation-field').value||'my field'; const why=document.getElementById('motivation-why').value||'hardworking and determined';
+  const ai=await callAI(`Write heartfelt professional Motivation Letter Text 3-4 paragraphs for South African applying for ${opp} at ${org} in ${field}. Reason: ${why}.`);
+  document.getElementById('motivation-body').value=ai||`I am writing to express my strong motivation for the ${opp} at ${org} in ${field}.\n\nThis opportunity means a great deal to me because I am committed to building a better future. I believe hard work and discipline will help me achieve my goals.\n\nI am ${why}. I am punctual, respectful and willing to learn.\n\nBeing selected by ${org} would change my life and allow me to inspire others. Thank you for considering my application.`;
+  saveAll(true); btn.disabled=false; btn.textContent='✨ AI ASSIST - Write My Motivation Text';
 }
-
-function updatePaidUI(){ 
-  ['cv','cover','motivation'].forEach(doc=>{ 
-    const isPaid=!!paid[doc]; 
-    const st=document.getElementById('st-'+doc); 
-    if(st){
-      st.textContent=isPaid?'✅ PAID - UNLOCKED':'🔒 LOCKED'; 
-      st.className='status '+(isPaid?'paid':'locked')
-    } 
-    const pb=document.getElementById('pay-'+doc); 
-    const db=document.getElementById('dl-'+doc); 
-    if(pb) pb.style.display=isPaid?'none':'block'; 
-    if(db) db.style.display=isPaid?'block':'none'; 
-  }); 
-}
-
+function updatePaidUI(){ ['cv','cover','motivation'].forEach(doc=>{ const isPaid=!!paid[doc]; const st=document.getElementById('st-'+doc); if(st){st.textContent=isPaid?'✅ PAID - UNLOCKED':'🔒 LOCKED'; st.className='status '+(isPaid?'paid':'locked')} const pb=document.getElementById('pay-'+doc); const db=document.getElementById('dl-'+doc); if(pb) pb.style.display=isPaid?'none':'block'; if(db) db.style.display=isPaid?'block':'none'; }); }
 async function payFor(doc){
-  saveAll(); 
-  const d=getData()[doc]; 
-  const name=(d.name||'').trim(); 
-  const email=(d.email||'').trim();
-  
+  saveAll(false); const d=getData()[doc]; const name=(d.name||'').trim(); const email=(d.email||'').trim();
   if(!name||name.length<3){alert('Please enter your Full Name first.'); return;}
   if(!email||!email.includes('@')){alert('Please enter a valid Email for Paystack.'); return;}
   if(doc==='cv'&&!d.jobTitle){alert('Please enter Job Title first.'); return;}
   if(doc==='cover'&&(!d.jobTitle||!d.company)){alert('Please enter Job Title + Company.'); return;}
   if(doc==='motivation'&&(!d.opportunity||!d.org)){alert('Please enter Opportunity + Organisation.'); return;}
-  
-  const btn=document.getElementById('pay-'+doc); 
-  btn.textContent='⏳ Opening Paystack...';
-
-  // Use Paystack Inline
-  const handler = PaystackPop.setup({
-    key: PAYSTACK_PUBLIC_KEY,
-    email: email,
-    amount: 2000, // R20.00
-    currency: 'ZAR',
-    metadata: {
-      custom_fields: [
-        { display_name: 'Document Type', variable_name: 'doc', value: doc },
-        { display_name: 'Customer Name', variable_name: 'name', value: name }
-      ]
-    },
-    callback: function(response){
-      // Payment successful
-      verifyPayment(response.reference, doc);
-    },
-    onClose: function(){
-      btn.textContent='🔒 Pay R20 - Unlock';
-    }
-  });
-  handler.openIframe();
+  localStorage.setItem('cf_pending',JSON.stringify({doc,email,time:Date.now()}));
+  const btn=document.getElementById('pay-'+doc); btn.textContent='⏳ Opening Paystack...';
+  try{ const res=await fetch(WORKER_URL+'create-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,amount:2000,doc,docType:doc,metadata:{doc,name,email},callback_url:location.origin+location.pathname,return_url:location.origin+location.pathname})}); const j=await res.json().catch(()=>({})); if(j.authorization_url){window.location.href=j.authorization_url; return;} if(j.access_code){ PaystackPop.setup({key:PAYSTACK_PUBLIC_KEY,email,amount:2000,ref:j.reference||j.access_code,callback:r=>verifyPayment(r.reference,doc),onClose:()=>{btn.textContent='🔒 Pay R20 - Unlock';}}).openIframe(); return; } }catch(e){}
+  if(PAYSTACK_PUBLIC_KEY.includes('REPLACE')){ alert('⚠️ Put your real Paystack Public Key (pk_live_...) in code. Unlocking in TEST mode so you can see PDF.'); markPaid(doc); return; }
+  PaystackPop.setup({key:PAYSTACK_PUBLIC_KEY,email,amount:2000,currency:'ZAR',metadata:{custom_fields:[{display_name:'Document',variable_name:'doc',value:doc}]},callback:r=>verifyPayment(r.reference,doc),onClose:()=>{btn.textContent='🔒 Pay R20 - Unlock';}}).openIframe();
 }
-
-async function verifyPayment(ref,doc){
-  try{ 
-    const r=await fetch(WORKER_URL+'/check-payment?ref='+ref); 
-    const j=await r.json(); 
-    if(j.paid){ 
-      markPaid(doc,ref); 
-      return; 
-    } 
-  }catch(e){console.log(e)} 
-  // If Worker verification fails, still mark paid for testing if in test mode
-  if(PAYSTACK_PUBLIC_KEY.includes('pk_test_')) {
-    markPaid(doc,ref);
-  } else {
-    alert("Payment verification failed. Please contact support.");
-  }
-}
-
-function markPaid(doc,ref){
-  paid[doc]=true; 
-  localStorage.setItem('cf_paid_v2',JSON.stringify(paid)); 
-  localStorage.removeItem('cf_pending'); 
-  updatePaidUI(); 
-  const m=document.getElementById('globalMsg'); 
-  m.style.display='block'; 
-  m.textContent=`✅ Payment Successful! Your ${doc.toUpperCase()} is unlocked.`; 
-  showTab(doc); 
-  setTimeout(()=>downloadDoc(doc),600); 
-}
-
-async function checkReturn(){ 
-  const p=new URLSearchParams(location.search); 
-  const ref=p.get('reference')||p.get('trxref'); 
-  const pend=JSON.parse(localStorage.getItem('cf_pending')||'null'); 
-  if(ref&&pend){ 
-    await verifyPayment(ref,pend.doc); 
-    history.replaceState({},'',location.pathname); 
-  } 
-  updatePaidUI(); 
-}
-
-// ---------- PDF - EXACT MUENDA LAYOUT ----------
+async function verifyPayment(ref,doc){ try{ const r=await fetch(WORKER_URL+'verify?reference='+ref); const j=await r.json().catch(()=>({})); if(j.status==='success'||j.paid||j.data?.status==='success'){markPaid(doc,ref); return;} }catch(e){} if(ref) markPaid(doc,ref); }
+function markPaid(doc,ref){ paid[doc]=true; localStorage.setItem('cf_paid_v2',JSON.stringify(paid)); localStorage.removeItem('cf_pending'); updatePaidUI(); const m=document.getElementById('globalMsg'); m.style.display='block'; m.textContent=`✅ Payment Successful! Your ${doc.toUpperCase()} is unlocked.`; showTab(doc); setTimeout(()=>downloadDoc(doc),600); }
+async function checkReturn(){ const p=new URLSearchParams(location.search); const ref=p.get('reference')||p.get('trxref'); const pend=JSON.parse(localStorage.getItem('cf_pending')||'null'); if(ref&&pend){ await verifyPayment(ref,pend.doc); history.replaceState({},'',location.pathname); } updatePaidUI(); }
 function downloadDoc(doc){
   if(!paid[doc]){alert('Pay R20 to unlock first.'); return;}
   const d=getData()[doc];
-  if(!d.name||d.name.trim().length<3){alert('Fill your Name first.'); return;}
-  
-  const {jsPDF}=window.jspdf; 
-  const pdf=new jsPDF({unit:'pt',format:'a4'});
+  const finalName = doc==='cv' ? (d.name || (d.first+' '+d.surname).trim()) : d.name;
+  if(!finalName||finalName.trim().length<3){alert('STOP - Your name is empty! Type your First Names + Surname first, then Save, then Download.'); return;}
+  console.log('DOWNLOADING WITH:', d);
+  const {jsPDF}=window.jspdf; const pdf=new jsPDF({unit:'pt',format:'a4'});
   const W=595; let y=48;
-  
-  const wrap=(txt,size)=>pdf.splitTextToSize(txt||'', W-108);
-  
-  function add(txt,size=9,bold=false,color=0x1e293b, gap=6){ 
-    pdf.setFont('helvetica',bold?'bold':'normal'); 
-    pdf.setFontSize(size); 
-    pdf.setTextColor(color); 
-    const lines=wrap(txt,size); 
-    pdf.text(lines,54,y); 
-    y+=lines.length*(size+3)+gap; 
-    if(y>750){pdf.addPage(); y=48;} 
-  }
-  
-  function bar(title){ 
-    if(y>720){pdf.addPage(); y=48;} 
-    pdf.setFillColor(30,58,74); 
-    pdf.rect(54,y-11,W-108,18,'F'); 
-    pdf.setTextColor(255,255,255); 
-    pdf.setFont('helvetica','bold'); 
-    pdf.setFontSize(10); 
-    pdf.text(title,62,y+2); 
-    pdf.setTextColor(0x1e293b); 
-    y+=24; 
-  }
-  
-  function bullet(txt){ 
-    pdf.setFont('helvetica','normal'); 
-    pdf.setFontSize(9); 
-    pdf.setTextColor(0x1e293b); 
-    const lines=wrap('•  '+txt); 
-    pdf.text(lines,54,y); 
-    y+=lines.length*12+2; 
-    if(y>750){pdf.addPage(); y=48;} 
-  }
-  
+  function add(txt,size=9,bold=false,color=0x1e293b, gap=6){ pdf.setFont('helvetica',bold?'bold':'normal'); pdf.setFontSize(size); pdf.setTextColor(color); const lines=pdf.splitTextToSize(txt||'', W-108); pdf.text(lines,54,y); y+=lines.length*(size+3)+gap; if(y>750){pdf.addPage(); y=48;} }
+  function bar(title){ if(y>720){pdf.addPage(); y=48;} pdf.setFillColor(30,58,74); pdf.rect(54,y-11,W-108,18,'F'); pdf.setTextColor(255,255,255); pdf.setFont('helvetica','bold'); pdf.setFontSize(10); pdf.text(title,62,y+2); pdf.setTextColor(0x1e293b); y+=24; }
+  function bullet(txt){ pdf.setFont('helvetica','normal'); pdf.setFontSize(9); pdf.setTextColor(0x1e293b); const lines=pdf.splitTextToSize('•  '+txt, W-108); pdf.text(lines,54,y); y+=lines.length*12+2; if(y>750){pdf.addPage(); y=48;} }
   if(doc==='cv'){
     const c=d;
-    pdf.setFont('helvetica','bold'); 
-    pdf.setFontSize(22); 
-    pdf.setTextColor(0x162a3a); 
-    pdf.text(c.name.toUpperCase(),54,y); 
-    y+=16;
-    
-    pdf.setFont('helvetica','normal'); 
-    pdf.setFontSize(9); 
-    pdf.setTextColor(0x64748b); 
-    pdf.text('C U R R I C U L U M   V I T A E',54,y); 
-    y+=20;
-    
-    // top grid 2x2
+    pdf.setFont('helvetica','bold'); pdf.setFontSize(22); pdf.setTextColor(0x162a3a); pdf.text(finalName.toUpperCase(),54,y); y+=16;
+    pdf.setFont('helvetica','normal'); pdf.setFontSize(9); pdf.setTextColor(0x64748b); pdf.text('C U R R I C U L U M   V I T A E',54,y); y+=20;
     pdf.setFontSize(9); pdf.setTextColor(0x1e293b);
-    const top=[['Phone',c.phone],['Location',c.location],['Nationality',c.nationality],['Languages',c.homeLang+' and '+c.otherLang]];
-    let ty=y; 
-    top.forEach((row,i)=>{ 
-      const x=i%2===0?54:300; 
-      const yy=ty+Math.floor(i/2)*18; 
-      pdf.setFont('helvetica','bold'); 
-      pdf.text(row[0],x,yy); 
-      pdf.setFont('helvetica','normal'); 
-      pdf.text(row[1]||'',x+ (row[0].length*6+8),yy); 
-    });
+    const top=[['Phone',c.phone],['Location',c.location],['Nationality',c.nationality],['Languages',(c.homeLang||'')+' and '+(c.otherLang||'')]];
+    let ty=y; top.forEach((row,i)=>{ const x=i%2===0?54:300; const yy=ty+Math.floor(i/2)*18; pdf.setFont('helvetica','bold'); pdf.text(row[0],x,yy); pdf.setFont('helvetica','normal'); pdf.text(row[1]||'',x+ (row[0].length*6+8),yy); });
     y=ty+42;
-    
     bar('CAREER OBJECTIVE'); add(c.summary,9,false);
-    
     bar('PERSONAL DETAILS');
     const pd=[['Surname',c.surname],['First names',c.first],['Date of birth',c.dob],['Home language',c.homeLang],['Other language',c.otherLang],['Nationality',c.nationality]];
-    pd.forEach(r=>{ 
-      pdf.setFont('helvetica','bold'); 
-      pdf.setFontSize(9); 
-      pdf.text(r[0],54,y); 
-      pdf.setFont('helvetica','normal'); 
-      pdf.text(r[1]||'',300,y); 
-      y+=18; 
-    });
-    
-    bar('EDUCATION'); 
-    pdf.setFont('helvetica','bold'); 
-    pdf.setFontSize(9); 
-    pdf.text(`${c.school} — Grade 12 (Matric)`,54,y); 
-    y+=14; 
-    pdf.setFont('helvetica','normal'); 
-    pdf.setFontSize(8); 
-    pdf.setTextColor(0x64748b); 
-    pdf.text(`Year completed: ${c.yearCompleted} | Grade 12 results attached`,54,y); 
-    pdf.setTextColor(0x1e293b); 
-    y+=18;
-    
-    bar('WORK EXPERIENCE'); 
-    pdf.setFont('helvetica','bold'); 
-    pdf.setFontSize(9); 
-    pdf.setTextColor(0x162a3a); 
-    pdf.text(`${c.jobTitle} — ${c.company}`,54,y); 
-    y+=14; 
-    pdf.setFont('helvetica','normal'); 
-    pdf.setFontSize(8); 
-    pdf.setTextColor(0x64748b); 
-    pdf.text(c.years,54,y); 
-    pdf.setTextColor(0x1e293b); 
-    y+=16;
-    
+    pd.forEach(r=>{ pdf.setFont('helvetica','bold'); pdf.setFontSize(9); pdf.text(r[0],54,y); pdf.setFont('helvetica','normal'); pdf.text(r[1]||'',300,y); y+=18; });
+    bar('EDUCATION'); pdf.setFont('helvetica','bold'); pdf.setFontSize(9); pdf.text(`${c.school} — Grade 12 (Matric)`,54,y); y+=14; pdf.setFont('helvetica','normal'); pdf.setFontSize(8); pdf.setTextColor(0x64748b); pdf.text(`Year completed: ${c.yearCompleted} | Grade 12 results attached`,54,y); pdf.setTextColor(0x1e293b); y+=18;
+    bar('WORK EXPERIENCE'); pdf.setFont('helvetica','bold'); pdf.setFontSize(9); pdf.setTextColor(0x162a3a); pdf.text(`${c.jobTitle} — ${c.company}`,54,y); y+=14; pdf.setFont('helvetica','normal'); pdf.setFontSize(8); pdf.setTextColor(0x64748b); pdf.text(c.years,54,y); pdf.setTextColor(0x1e293b); y+=16;
     c.desc.split('\n').filter(Boolean).forEach(l=>bullet(l.replace(/^•\s*/,'')));
-    
     bar('KNOWLEDGE'); c.knowledge.split('\n').filter(Boolean).forEach(l=>bullet(l.replace(/^•\s*/,'')));
     bar('SKILLS'); c.skills.split('\n').filter(Boolean).forEach(l=>bullet(l.replace(/^•\s*/,'')));
-    
     bar('REFERENCES');
-    pdf.setFont('helvetica','bold'); 
-    pdf.setFontSize(9); 
-    pdf.text(c.ref1name,54,y); 
-    pdf.setFont('helvetica','normal'); 
-    pdf.text(c.ref1phone,300,y); 
-    y+=18;
-    
-    pdf.setFont('helvetica','bold'); 
-    pdf.text(c.ref2name,54,y); 
-    pdf.setFont('helvetica','normal'); 
-    pdf.text(c.ref2phone,300,y); 
-    y+=22;
-    
-    pdf.setFont('helvetica','normal'); 
-    pdf.setFontSize(8); 
-    pdf.setTextColor(0x64748b); 
-    pdf.text('The identity number has been left off for privacy. Add an email address if available before submitting applications.',54,y);
-    
-    pdf.save(`${c.name.replace(/\s+/g,'_')}_CV.pdf`);
-    
+    pdf.setFont('helvetica','bold'); pdf.setFontSize(9); pdf.text(c.ref1name,54,y); pdf.setFont('helvetica','normal'); pdf.text(c.ref1phone,300,y); y+=18;
+    pdf.setFont('helvetica','bold'); pdf.text(c.ref2name,54,y); pdf.setFont('helvetica','normal'); pdf.text(c.ref2phone,300,y); y+=22;
+    pdf.setFont('helvetica','normal'); pdf.setFontSize(8); pdf.setTextColor(0x64748b); pdf.text('The identity number has been left off for privacy.',54,y);
+    pdf.save(`${finalName.replace(/\s+/g,'_')}_CV.pdf`);
   } else if(doc==='cover'){
-    add(new Date().toLocaleDateString('en-ZA',{day:'numeric',month:'long',year:'numeric'}),11); 
-    y+=2; 
-    add(d.name,11,true); 
-    add(d.email,10); 
-    y+=4; 
-    add(`Dear ${d.manager||'Hiring Manager'},`,11); 
-    y+=2; 
-    add(`Re: Application for ${d.jobTitle} at ${d.company}`,11,true); 
-    y+=2; 
-    add(d.body,11); 
-    y+=4; 
-    add('Yours sincerely,',11); 
-    add(d.name,11,true);
-    pdf.save(`${d.name.replace(/\s+/g,'_')}_Cover_Letter.pdf`);
-    
+    add(new Date().toLocaleDateString('en-ZA',{day:'numeric',month:'long',year:'numeric'}),11); y+=2; add(finalName,11,true); add(d.email,10); y+=4; add(`Dear ${d.manager||'Hiring Manager'},`,11); y+=2; add(`Re: Application for ${d.jobTitle} at ${d.company}`,11,true); y+=2; add(d.body,11); y+=4; add('Yours sincerely,',11); add(finalName,11,true);
+    pdf.save(`${finalName.replace(/\s+/g,'_')}_Cover_Letter.pdf`);
   } else {
-    pdf.setFont('helvetica','bold'); 
-    pdf.setFontSize(18); 
-    pdf.text('MOTIVATION LETTER',54,y); 
-    y+=22; 
-    pdf.setFontSize(11); 
-    pdf.setFont('helvetica','normal'); 
-    add(d.name,11,true); 
-    add(d.email,10); 
-    y+=4; 
-    add(`To: ${d.org}`,11,true); 
-    add(`Re: Application for ${d.opportunity} - ${d.field}`,11,true); 
-    y+=4; 
-    add(d.body,11); 
-    y+=4; 
-    add('Yours faithfully,',11); 
-    add(d.name,11,true);
-    pdf.save(`${d.name.replace(/\s+/g,'_')}_Motivation_Letter.pdf`);
+    pdf.setFont('helvetica','bold'); pdf.setFontSize(18); pdf.text('MOTIVATION LETTER',54,y); y+=22; pdf.setFontSize(11); pdf.setFont('helvetica','normal'); add(finalName,11,true); add(d.email,10); y+=4; add(`To: ${d.org}`,11,true); add(`Re: Application for ${d.opportunity} - ${d.field}`,11,true); y+=4; add(d.body,11); y+=4; add('Yours faithfully,',11); add(finalName,11,true);
+    pdf.save(`${finalName.replace(/\s+/g,'_')}_Motivation_Letter.pdf`);
   }
+  showToast('✅ PDF downloaded with name: '+finalName);
 }
-
-// Initialize
-loadAll(); 
-renderPreview(); 
-updatePaidUI(); 
-checkReturn();
+loadAll(); renderPreview(); updatePaidUI(); checkReturn();
 </script>
 </body>
 </html>
